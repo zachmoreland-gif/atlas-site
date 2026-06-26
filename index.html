@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Vision Systems — Smart Property Technology</title>
+<style>
+  :root{
+    --navy:#1A3A5C; --navy2:#23507f; --gold:#C8A84B; --bg:#ffffff;
+    --soft:#f4f6f9; --line:#e2e8f0; --ink:#1f2a37; --muted:#5b6776;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);line-height:1.6;background:var(--bg);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .mock{background:#fffbe9;border-bottom:1px solid #f0e3a8;color:#7a6a1f;font-size:12px;text-align:center;padding:7px}
+
+  /* Nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:800;color:var(--navy);font-size:16px;letter-spacing:.2px}
+  .logo .mark{width:34px;height:34px;border:2px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px}
+  .nav-links{display:flex;align-items:center;gap:26px;font-size:14px;font-weight:500;color:var(--muted)}
+  .nav-links a:hover{color:var(--navy)}
+  .btn{background:var(--navy);color:#fff;padding:10px 18px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:.15s}
+  .btn:hover{background:var(--navy2)}
+  .btn.gold{background:var(--gold);color:var(--navy)}
+  .btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--line)}
+  .login{font-size:13px;color:var(--muted)}
+  @media(max-width:780px){.nav-links a:not(.login){display:none}}
+
+  /* Hero */
+  .hero{background:linear-gradient(150deg,var(--navy),var(--navy2));color:#fff;padding:84px 0 92px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border:2px solid rgba(200,168,75,.18);border-radius:30px;transform:rotate(25deg)}
+  .hero h1{font-size:46px;line-height:1.1;font-weight:800;max-width:760px;letter-spacing:-.5px}
+  .hero h1 .hl{color:var(--gold)}
+  .hero p{font-size:18px;opacity:.92;max-width:600px;margin-top:20px}
+  .hero .cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+  .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.35)}
+  .trust{margin-top:42px;display:flex;gap:28px;flex-wrap:wrap;font-size:13px;opacity:.85}
+  .trust span{display:flex;align-items:center;gap:7px}
+  .trust .dot{color:var(--gold);font-size:15px}
+  @media(max-width:680px){.hero h1{font-size:33px}.hero{padding:56px 0 64px}}
+
+  /* Sections */
+  section{padding:74px 0}
+  .eyebrow{color:var(--gold);font-weight:700;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase}
+  h2{font-size:31px;font-weight:800;color:var(--navy);margin-top:8px;letter-spacing:-.3px}
+  .lead{color:var(--muted);font-size:16.5px;max-width:620px;margin-top:12px}
+  .soft{background:var(--soft)}
+
+  .who{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
+  .who .c{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;transition:.15s}
+  .who .c:hover{box-shadow:0 10px 30px rgba(26,58,92,.09);transform:translateY(-2px)}
+  .who .ic{font-size:26px}
+  .who h3{font-size:18px;color:var(--navy);margin:12px 0 7px}
+  .who p{font-size:14px;color:var(--muted)}
+
+  .svc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px}
+  .svc .s{border:1px solid var(--line);border-radius:14px;padding:24px;background:#fff}
+  .svc .s .ic{width:42px;height:42px;border-radius:10px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--navy)}
+  .svc .s h3{font-size:16.5px;color:var(--navy);margin:14px 0 6px}
+  .svc .s p{font-size:13.5px;color:var(--muted)}
+
+  .why{display:grid;grid-template-columns:1fr 1fr;gap:18px 40px;margin-top:38px}
+  .why .w{display:flex;gap:15px;align-items:flex-start}
+  .why .w .num{flex-shrink:0;width:34px;height:34px;border-radius:9px;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+  .why .w h3{font-size:16.5px;color:var(--navy);margin-bottom:3px}
+  .why .w p{font-size:14px;color:var(--muted)}
+
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;counter-reset:st}
+  .steps .st{text-align:center;position:relative}
+  .steps .st .b{width:50px;height:50px;margin:0 auto 12px;border-radius:50%;background:#fff;border:2px solid var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+  .steps .st h4{font-size:14.5px;color:var(--navy)}
+  .steps .st p{font-size:12.5px;color:var(--muted);margin-top:3px}
+  @media(max-width:880px){.who,.svc{grid-template-columns:1fr 1fr}.why{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr 1fr}.tiers{grid-template-columns:1fr}}
+  @media(max-width:560px){.who,.svc,.steps{grid-template-columns:1fr}}
+
+  /* support */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+  .tier{border:1px solid var(--line);border-radius:16px;padding:30px;background:#fff}
+  .tier.feat{border-color:var(--navy);box-shadow:0 12px 34px rgba(26,58,92,.12);position:relative}
+  .tier .pill{position:absolute;top:-12px;left:30px;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px}
+  .tier h3{font-size:20px;color:var(--navy)}
+  .tier .sub{color:var(--muted);font-size:14px;margin:4px 0 16px}
+  .tier ul{list-style:none}
+  .tier li{font-size:14px;padding:7px 0 7px 26px;position:relative;color:var(--ink)}
+  .tier li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:800}
+  .tier .price{margin-top:16px;font-size:13px;color:var(--muted);font-style:italic}
+
+  /* CTA / form */
+  .cta-band{background:var(--navy);color:#fff;border-radius:20px;padding:46px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .cta-band h2{color:#fff}
+  .cta-band p{opacity:.9;margin-top:12px;font-size:15.5px}
+  .cta-band .tlist{margin-top:18px;font-size:14px;opacity:.9;line-height:2}
+  form{background:#fff;border-radius:14px;padding:24px;color:var(--ink)}
+  form label{display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin:12px 0 5px}
+  form label:first-child{margin-top:0}
+  form input,form select,form textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
+  form textarea{resize:vertical;min-height:70px}
+  form .btn{width:100%;margin-top:18px;padding:13px}
+  @media(max-width:780px){.cta-band{grid-template-columns:1fr;padding:30px}}
+
+  footer{background:#12273d;color:#aebfce;padding:46px 0 30px;font-size:13.5px}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  footer .logo{color:#fff}
+  footer a:hover{color:#fff}
+  .foot-links{display:flex;gap:30px;flex-wrap:wrap}
+  .copy{border-top:1px solid #24405c;margin-top:28px;padding-top:18px;font-size:12px;opacity:.7;text-align:center}
+</style>
+</head>
+<body>
+<div class="mock">PROTOTYPE — Atlas Vision Systems marketing site for review. Copy, contact details, and the client login are placeholders.</div>
+
+<nav>
+  <div class="wrap nav">
+    <div class="logo"><span class="mark">A</span> Atlas Vision Systems</div>
+    <div class="nav-links">
+      <a href="#serve">Who We Serve</a>
+      <a href="#services">Services</a>
+      <a href="#why">Why Atlas</a>
+      <a href="#how">How It Works</a>
+      <a href="#" class="login">Client Login →</a>
+      <a href="#contact"><button class="btn">Free Assessment</button></a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--gold);margin-bottom:14px">Connected Property Solutions</div>
+    <h1>Smart property technology that actually <span class="hl">gets supported.</span></h1>
+    <p>Smart cameras, door access systems, intercoms, and the networks that run them — designed, installed, and supported for commercial properties, apartment and condo communities, and homes across the Kansas City metro.</p>
+    <div class="cta">
+      <a href="#contact"><button class="btn gold">Request a Free Assessment</button></a>
+      <a href="#how"><button class="btn ghost">See How It Works</button></a>
+    </div>
+    <div class="trust">
+      <span><span class="dot">●</span> Powered by UniFi</span>
+      <span><span class="dot">●</span> Hardware at cost — no markup</span>
+      <span><span class="dot">●</span> Ongoing managed support</span>
+      <span><span class="dot">●</span> Local to Kansas City</span>
+    </div>
+  </div>
+</header>
+
+<!-- WHO WE SERVE -->
+<section id="serve">
+  <div class="wrap">
+    <div class="eyebrow">Who We Serve</div>
+    <h2>One platform, every kind of property</h2>
+    <p class="lead">The same professional-grade system scales from a single front door to a multi-building campus — sized and priced to fit.</p>
+    <div class="who">
+      <div class="c">
+        <div class="ic">🏢</div>
+        <h3>Commercial</h3>
+        <p>Offices, retail, houses of worship, and facilities that need real coverage, access control, and footage they can count on.</p>
+      </div>
+      <div class="c">
+        <div class="ic">🏘️</div>
+        <h3>Multifamily</h3>
+        <p>Apartment communities and property managers — secured entries, common-area cameras, and resident access without the headaches.</p>
+      </div>
+      <div class="c">
+        <div class="ic">🏙️</div>
+        <h3>Condos &amp; HOAs</h3>
+        <p>Condo associations and boards — secured lobbies, garages, and common areas, with per-owner access and footage the board can trust.</p>
+      </div>
+      <div class="c">
+        <div class="ic">🏠</div>
+        <h3>Homeowners</h3>
+        <p>Whole-home camera and access systems with the same pro hardware and support we put in commercial buildings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="soft">
+  <div class="wrap">
+    <div class="eyebrow">What We Do</div>
+    <h2>Everything from the first camera to the last login</h2>
+    <p class="lead">We design, install, configure, and support the whole system — not just drop hardware and leave.</p>
+    <div class="svc">
+      <div class="s"><div class="ic">📹</div><h3>Cameras &amp; Video</h3><p>4K UniFi Protect cameras with AI detection, smart search, and footage retention tuned to your needs.</p></div>
+      <div class="s"><div class="ic">🚪</div><h3>Door Access &amp; Intercoms</h3><p>Keyless entry by fob, phone, PIN, or face — plus visitor intercoms and one-tap building lockdown.</p></div>
+      <div class="s"><div class="ic">💾</div><h3>Recording &amp; Storage</h3><p>On-site NVR storage sized for weeks of high-quality footage, with room to grow.</p></div>
+      <div class="s"><div class="ic">📶</div><h3>Network &amp; Wi-Fi</h3><p>The reliable UniFi backbone that ties cameras, doors, and your property together.</p></div>
+      <div class="s"><div class="ic">🛠️</div><h3>Managed Support</h3><p>Remote system-health checks, updates, footage pulls, and fine-tuning so everything keeps working for years.</p></div>
+      <div class="s"><div class="ic">📘</div><h3>Training &amp; How-To Portal</h3><p>Live staff training plus a private help center built around your exact system.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap">
+    <div class="eyebrow">Why Atlas</div>
+    <h2>Built different from the typical installer</h2>
+    <div class="why">
+      <div class="w"><div class="num">1</div><div><h3>Your system, your data, your control</h3><p>You own the hardware and the footage outright. No proprietary lock-in, no holding your system hostage.</p></div></div>
+      <div class="w"><div class="num">2</div><div><h3>Hardware at cost — no markup</h3><p>We make our money on the work, not by marking up your equipment. You see exactly what things cost.</p></div></div>
+      <div class="w"><div class="num">3</div><div><h3>We don't set up and walk away</h3><p>Every install includes training and ongoing support. We stay your single point of contact.</p></div></div>
+      <div class="w"><div class="num">4</div><div><h3>Real UniFi expertise</h3><p>We run these systems ourselves across dozens of properties — not learning on your dime.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how" class="soft">
+  <div class="wrap">
+    <div class="eyebrow">How It Works</div>
+    <h2>From first look to fully supported</h2>
+    <div class="steps">
+      <div class="st"><div class="b">1</div><h4>Assessment</h4><p>We walk your property and learn your goals — free.</p></div>
+      <div class="st"><div class="b">2</div><h4>Design &amp; Quote</h4><p>A clear, itemized plan with no surprises.</p></div>
+      <div class="st"><div class="b">3</div><h4>Install</h4><p>Clean, professional installation and setup.</p></div>
+      <div class="st"><div class="b">4</div><h4>Training</h4><p>Hands-on training plus your how-to portal.</p></div>
+      <div class="st"><div class="b">5</div><h4>Support</h4><p>Ongoing managed care that keeps it running.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT TIERS -->
+<section id="support">
+  <div class="wrap">
+    <div class="eyebrow">Optional Ongoing Support</div>
+    <h2>We stay with you after install — only if you want</h2>
+    <p class="lead">Support is completely optional; your system is yours to run. But most clients keep us on. Three levels, all month-to-month:</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;max-width:640px"><em>Your system alerts your own property staff to events, and Atlas monitors its health and uptime. We are not an alarm-monitoring service and do not dispatch police or fire.</em></p>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Home Care</h3>
+        <div class="sub">For homes &amp; single units</div>
+        <ul>
+          <li>Remote system-health monitoring</li>
+          <li>Firmware &amp; security updates</li>
+          <li>Footage-pull help when you need it</li>
+          <li>Support line + annual tune-up</li>
+        </ul>
+        <div class="price">Pricing scoped to your home — ask for a quote.</div>
+      </div>
+      <div class="tier">
+        <h3>Managed</h3>
+        <div class="sub">For buildings &amp; associations</div>
+        <ul>
+          <li>Remote system-health monitoring</li>
+          <li>Scheduled firmware &amp; security updates</li>
+          <li>Footage pulls on request</li>
+          <li>Remote support &amp; monthly check-in</li>
+        </ul>
+        <div class="price">Pricing scoped to your property — ask for a quote.</div>
+      </div>
+      <div class="tier feat">
+        <div class="pill">MOST POPULAR</div>
+        <h3>Operations Partner</h3>
+        <div class="sub">We run it like it's ours</div>
+        <ul>
+          <li>Everything in Managed, plus:</li>
+          <li>Twice-weekly checks &amp; ongoing fine-tuning</li>
+          <li>Unlimited alert &amp; event-rule changes</li>
+          <li>Priority on-site + twice-a-year reviews</li>
+          <li>New-hardware roadmap guidance</li>
+        </ul>
+        <div class="price">Pricing scoped to your property — ask for a quote.</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:16px;max-width:700px">Home Care fits homes and individual condo units. Managed and Operations Partner fit commercial buildings, apartment communities, and condo / HOA associations.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <div class="eyebrow" style="color:var(--gold)">Get Started</div>
+        <h2>Request a free assessment</h2>
+        <p>Tell us about your property and we'll come take a look — no cost, no pressure. You'll get an honest read on what makes sense for your space.</p>
+        <div class="tlist">
+          ✓ Free on-site walkthrough<br>
+          ✓ Honest, itemized recommendations<br>
+          ✓ No obligation
+        </div>
+      </div>
+      <form onsubmit="event.preventDefault();this.innerHTML='<div style=&quot;text-align:center;padding:30px 10px&quot;><div style=&quot;font-size:32px&quot;>✓</div><h3 style=&quot;color:#1A3A5C;margin-top:10px&quot;>Thanks — we&#39;ll be in touch!</h3><p style=&quot;color:#5b6776;font-size:14px;margin-top:6px&quot;>(Prototype — form isn&#39;t live yet.)</p></div>'">
+        <label>Name</label>
+        <input type="text" placeholder="Your name" required>
+        <label>Email or phone</label>
+        <input type="text" placeholder="How we reach you" required>
+        <label>Property type</label>
+        <select>
+          <option>Commercial</option>
+          <option>Multifamily / Apartments</option>
+          <option>Condo / HOA</option>
+          <option>Home</option>
+        </select>
+        <label>What are you looking to do?</label>
+        <textarea placeholder="Cameras, door access, a full system…"></textarea>
+        <button class="btn gold" type="submit">Request My Free Assessment</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="logo"><span class="mark">A</span> Atlas Vision Systems</div>
+        <p style="margin-top:12px;max-width:300px">Professional UniFi cameras, access &amp; networks — designed, installed, and supported. Serving the Kansas City metro.</p>
+      </div>
+      <div class="foot-links">
+        <div>
+          <div style="color:#fff;font-weight:600;margin-bottom:8px">Company</div>
+          <a href="#serve">Who We Serve</a><br>
+          <a href="#services">Services</a><br>
+          <a href="#why">Why Atlas</a>
+        </div>
+        <div>
+          <div style="color:#fff;font-weight:600;margin-bottom:8px">Get in Touch</div>
+          <a href="#contact">Free Assessment</a><br>
+          <a href="#">Client Login</a><br>
+          <a href="#">hello@atlasvisionsystems.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="copy">© 2026 Atlas Vision Systems, a division of NAC Investments LLC. All rights reserved. · Prototype for review.</div>
+  </div>
+</footer>
+</body>
+</html>
