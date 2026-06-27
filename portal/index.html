@@ -31,6 +31,7 @@
   .btn[disabled]{opacity:.6;cursor:default}
   .login-card .btn{margin-top:22px}
   .forgot{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:16px;cursor:pointer}
+  .pwtoggle{float:right;font-weight:700;color:var(--navy2);cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
   .powered{text-align:center;font-size:11px;color:#9aa6b3;margin-top:22px}
   .err{background:#fff4ef;border:1px solid #f3c9b8;color:#b4451f;font-size:12.5px;padding:9px 11px;border-radius:8px;margin-top:14px;display:none}
   .err.show{display:block}
@@ -108,7 +109,7 @@
     <div class="sub">Sign in to your Atlas Vision Systems account</div>
     <label>Email</label>
     <input id="email" type="email" placeholder="you@yourproperty.com" autocomplete="username" required>
-    <label>Password</label>
+    <label>Password <span id="pwToggle" class="pwtoggle" onclick="togglePw()">Show</span></label>
     <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
     <button class="btn" id="loginBtn" type="submit">Sign In</button>
     <div class="err" id="loginErr"></div>
@@ -424,6 +425,13 @@
     });
     $(id).classList.remove('hidden');
     window.scrollTo(0,0);
+  }
+
+  /* ---------- Show/hide password ---------- */
+  function togglePw(){
+    var p = $('password'), t = $('pwToggle');
+    if(p.type === 'password'){ p.type = 'text'; t.textContent = 'Hide'; }
+    else { p.type = 'password'; t.textContent = 'Show'; }
   }
 </script>
 </body>
