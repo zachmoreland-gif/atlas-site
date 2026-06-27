@@ -100,6 +100,27 @@
   .note{font-size:12.5px;color:var(--muted);margin-top:10px}
   .empty{color:var(--muted);font-size:13.5px;padding:6px 0}
   footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}
+
+  /* ADMIN */
+  #adminBar{display:none;align-items:center;justify-content:space-between;gap:12px;background:#2a2208;color:#f0d488;padding:9px 22px;font-size:12.5px}
+  body.adminmode #adminBar{display:flex}
+  #adminBar .ab-back{color:#f0d488;cursor:pointer;border:1px solid #5a4a1e;border-radius:7px;padding:5px 11px;font-weight:700;white-space:nowrap}
+  body:not(.adminmode) #adminUploadWrap{display:none}
+  .admin-head{background:var(--navy);color:#fff;padding:15px 22px;display:flex;align-items:center;justify-content:space-between}
+  .admin-head .ah-brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:15px}
+  .admin-head .ah-brand img{width:32px;height:32px;border-radius:7px;background:#fff;object-fit:contain}
+  .admin-wrap{max-width:1000px;margin:0 auto;padding:30px 22px 60px}
+  .admin-wrap h2{font-size:23px;color:var(--navy)}
+  .admin-wrap .lead{color:var(--muted);font-size:14px;margin:4px 0 22px}
+  .client-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .client-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;transition:.15s}
+  .client-card:hover{box-shadow:0 12px 30px rgba(26,58,92,.12);transform:translateY(-2px);border-color:#cfd8e3}
+  .client-card .cc-init{width:42px;height:42px;border-radius:10px;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+  .client-card h3{font-size:16px;color:var(--navy);margin:13px 0 3px}
+  .client-card p{font-size:12.5px;color:var(--muted)}
+  .client-card .cc-go{color:var(--gold);font-weight:700;font-size:12.5px;margin-top:12px}
+  .upbtn{background:var(--navy);color:#fff;border:none;border-radius:9px;font-weight:600;font-size:13px;padding:10px 16px;cursor:pointer}
+  .upbtn[disabled]{opacity:.6;cursor:default}
 </style>
 </head>
 <body>
@@ -129,8 +150,25 @@
   </form>
 </div>
 
+<!-- ===== ADMIN: client list ===== -->
+<div id="admin" class="hidden">
+  <div class="admin-head">
+    <div class="ah-brand"><img src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas — Admin Console</div>
+    <span class="signout" onclick="doSignOut()">Sign out</span>
+  </div>
+  <div class="admin-wrap">
+    <h2>Client Portals</h2>
+    <p class="lead">Every Atlas client. Open any one to view their portal exactly as they see it and manage their documents.</p>
+    <div class="client-grid" id="clientGrid"></div>
+  </div>
+</div>
+
 <!-- ===== APP ===== -->
 <div id="app" class="hidden">
+  <div id="adminBar">
+    <span><b>Admin view</b> — viewing <span id="adminClientName">—</span>'s portal as they see it.</span>
+    <span class="ab-back" onclick="backToAdmin()">← All clients</span>
+  </div>
   <div class="topbar">
     <div class="tb-brand" style="cursor:pointer" onclick="show('home')" title="Dashboard home"><img id="brandLogo" src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
     <div class="tb-right">
@@ -226,6 +264,9 @@
       <span class="back" onclick="show('home')">← Back to dashboard</span>
       <h2>Documents &amp; Agreements</h2>
       <p class="lead">Your important paperwork, stored securely and always available.</p>
+      <div id="adminUploadWrap" style="margin-bottom:14px">
+        <button class="upbtn" onclick="adminUpload()">＋ Upload a document</button>
+      </div>
       <div class="panel">
         <div id="docList"></div>
       </div>
@@ -299,15 +340,70 @@
 
   const $ = function(id){ return document.getElementById(id); };
   function showScreen(which){
-    ['splash','login','app'].forEach(function(s){ $(s).classList.add('hidden'); });
+    ['splash','login','admin','app'].forEach(function(s){ $(s).classList.add('hidden'); });
     $(which).classList.remove('hidden');
   }
 
+  /* ---------- State ---------- */
+  var IS_ADMIN = false;
+  var CURRENT_CLIENT_ID = null;
+
   /* ---------- Auth state ---------- */
   auth.onAuthStateChanged(function(user){
-    if(user){ loadClient(user); }
-    else { showScreen('login'); }
+    if(user){ gate(user); }
+    else { document.body.classList.remove('adminmode'); showScreen('login'); }
   });
+
+  /* ---------- Admin gate ---------- */
+  async function gate(user){
+    showScreen('splash');
+    try {
+      const adminDoc = await db.collection('admins').doc(user.uid).get();
+      IS_ADMIN = adminDoc.exists;
+    } catch(e){ IS_ADMIN = false; }
+    if(IS_ADMIN){ loadAdmin(); }
+    else { loadClient(user); }
+  }
+
+  async function loadAdmin(){
+    showScreen('splash');
+    document.body.classList.remove('adminmode');
+    try {
+      const snap = await db.collection('clients').orderBy('name').get();
+      var html = '';
+      snap.forEach(function(d){
+        var c = d.data();
+        var init = c.initials || (c.name ? c.name.split(/\s+/).map(function(w){return w[0];}).slice(0,2).join('').toUpperCase() : '?');
+        html += '<div class="client-card" onclick="openClient(&quot;'+esc(d.id)+'&quot;)">'+
+                '<div class="cc-init">'+esc(init)+'</div>'+
+                '<h3>'+esc(c.name||d.id)+'</h3>'+
+                '<p>'+esc(c.location||'')+'</p>'+
+                '<div class="cc-go">Open portal →</div></div>';
+      });
+      $('clientGrid').innerHTML = html || '<div class="empty">No clients yet.</div>';
+      showScreen('admin');
+    } catch(ex){
+      $('clientGrid').innerHTML = '<div class="empty">Could not load clients: '+esc(ex.message)+'</div>';
+      showScreen('admin');
+    }
+  }
+
+  async function openClient(clientId){
+    showScreen('splash');
+    try {
+      const d = await db.collection('clients').doc(clientId).get();
+      if(!d.exists){ throw new Error('Client not found'); }
+      CURRENT_CLIENT_ID = clientId;
+      var data = d.data();
+      render(data);
+      $('adminClientName').textContent = (data.shortName || data.name || clientId);
+      document.body.classList.add('adminmode');
+      showScreen('app');
+      show('home');
+    } catch(ex){ alert('Could not open client: '+ex.message); loadAdmin(); }
+  }
+
+  function backToAdmin(){ document.body.classList.remove('adminmode'); loadAdmin(); }
 
   function doSignIn(e){
     e.preventDefault();
@@ -473,6 +569,41 @@
     storage.ref(path).getDownloadURL()
       .then(function(url){ window.open(url, '_blank'); el.textContent = label; })
       .catch(function(){ el.textContent = label; alert('Sorry — that document isn’t available right now. Please contact Atlas.'); });
+  }
+
+  /* ---------- Admin: upload a document to the current client ---------- */
+  function adminUpload(){
+    if(!IS_ADMIN || !CURRENT_CLIENT_ID){ return; }
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = function(){
+      var file = input.files && input.files[0];
+      if(!file){ return; }
+      var title = window.prompt('Document title (what the client sees):', file.name.replace(/\.[^.]+$/, ''));
+      if(title === null){ return; }
+      var sentOn = window.prompt('Date sent / received (optional — e.g. Jun 17, 2026):', '') || '';
+      var path = 'clients/' + CURRENT_CLIENT_ID + '/' + file.name;
+      var btn = document.querySelector('#adminUploadWrap .upbtn');
+      if(btn){ btn.disabled = true; btn.textContent = 'Uploading…'; }
+      storage.ref(path).put(file).then(function(){
+        return db.collection('clients').doc(CURRENT_CLIENT_ID).update({
+          documents: firebase.firestore.FieldValue.arrayUnion({
+            title: title || file.name,
+            storagePath: path,
+            sentOn: sentOn,
+            meta: ''
+          })
+        });
+      }).then(function(){
+        if(btn){ btn.disabled = false; btn.textContent = '＋ Upload a document'; }
+        return openClient(CURRENT_CLIENT_ID);
+      }).then(function(){ show('docs'); })
+      .catch(function(ex){
+        if(btn){ btn.disabled = false; btn.textContent = '＋ Upload a document'; }
+        alert('Upload failed: ' + ex.message);
+      });
+    };
+    input.click();
   }
 </script>
 </body>
