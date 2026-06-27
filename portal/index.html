@@ -275,6 +275,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <script>
   /* ============================================================
@@ -294,6 +295,7 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const storage = firebase.storage();
 
   const $ = function(id){ return document.getElementById(id); };
   function showScreen(which){
@@ -410,11 +412,17 @@
       return '<div class="row"><span>'+esc(x.label)+'</span><span><span class="pill '+cls+'">'+esc(x.status)+'</span></span></div>';
     }).join('') : '<div class="empty">No invoices yet.</div>';
 
-    // Documents (download wired in the Drive step — disabled for now)
+    // Documents — served securely from Firebase Storage when a path is set
     var docs = (c.documents||[]);
     $('docList').innerHTML = docs.length ? docs.map(function(x){
-      return '<div class="doc"><div class="fi">'+esc(x.icon||'📄')+'</div><div><b>'+esc(x.title)+'</b><div class="meta">'+esc(x.meta||'')+'</div></div>'+
-             '<span class="dl off" title="Secure downloads activate once your documents are connected">Download</span></div>';
+      var bits = [];
+      if(x.meta) bits.push(esc(x.meta));
+      if(x.sentOn) bits.push('Sent ' + esc(x.sentOn));
+      var metaLine = bits.join(' · ');
+      var dl = x.storagePath
+        ? '<span class="dl" onclick="downloadDoc(this,&quot;'+esc(x.storagePath)+'&quot;)">Download</span>'
+        : '<span class="dl off" title="Available once your file is uploaded">Download</span>';
+      return '<div class="doc"><div class="fi">'+esc(x.icon||'📄')+'</div><div><b>'+esc(x.title)+'</b><div class="meta">'+metaLine+'</div></div>'+dl+'</div>';
     }).join('') : '<div class="empty">Your documents will appear here.</div>';
 
     // System
@@ -456,6 +464,15 @@
     var p = $('password'), t = $('pwToggle');
     if(p.type === 'password'){ p.type = 'text'; t.textContent = 'Hide'; }
     else { p.type = 'password'; t.textContent = 'Show'; }
+  }
+
+  /* ---------- Secure document download (Firebase Storage) ---------- */
+  function downloadDoc(el, path){
+    var label = el.textContent;
+    el.textContent = 'Opening…';
+    storage.ref(path).getDownloadURL()
+      .then(function(url){ window.open(url, '_blank'); el.textContent = label; })
+      .catch(function(){ el.textContent = label; alert('Sorry — that document isn’t available right now. Please contact Atlas.'); });
   }
 </script>
 </body>
