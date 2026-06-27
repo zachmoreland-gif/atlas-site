@@ -121,6 +121,19 @@
   .client-card .cc-go{color:var(--gold);font-weight:700;font-size:12.5px;margin-top:12px}
   .upbtn{background:var(--navy);color:#fff;border:none;border-radius:9px;font-weight:600;font-size:13px;padding:10px 16px;cursor:pointer}
   .upbtn[disabled]{opacity:.6;cursor:default}
+
+  /* UPLOAD MODAL */
+  #uploadModal{position:fixed;inset:0;background:rgba(15,25,40,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
+  .um-card{background:#fff;border-radius:16px;padding:26px;width:100%;max-width:440px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+  .um-card h3{font-size:18px;color:var(--navy)}
+  .um-sub{color:var(--muted);font-size:13px;margin:4px 0 14px}
+  .um-l{display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin:14px 0 5px}
+  .um-opt{color:var(--muted);font-weight:400}
+  #uploadModal input[type=text]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit}
+  #uploadModal input:focus{outline:none;border-color:var(--navy2)}
+  .um-file{display:flex;align-items:center;gap:12px}
+  .um-fn{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .um-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 </style>
 </head>
 <body>
@@ -265,7 +278,7 @@
       <h2>Documents &amp; Agreements</h2>
       <p class="lead">Your important paperwork, stored securely and always available.</p>
       <div id="adminUploadWrap" style="margin-bottom:14px">
-        <button class="upbtn" onclick="adminUpload()">＋ Upload a document</button>
+        <button class="upbtn" onclick="openUploadModal()">＋ Upload a document</button>
       </div>
       <div class="panel">
         <div id="docList"></div>
@@ -310,6 +323,31 @@
     </div>
   </main>
   <footer>Atlas Vision Systems · Client Portal</footer>
+</div>
+
+<!-- ===== UPLOAD MODAL (admin) ===== -->
+<div id="uploadModal" class="hidden">
+  <div class="um-card">
+    <h3>Add a document</h3>
+    <p class="um-sub">Upload a file to <span id="umClient">this client</span>'s portal.</p>
+    <input id="umFile" type="file" style="display:none" onchange="umPickFile()">
+    <label class="um-l">File</label>
+    <div class="um-file">
+      <button type="button" class="ghost-btn" onclick="document.getElementById('umFile').click()">Choose file</button>
+      <span id="umFileName" class="um-fn">No file selected</span>
+    </div>
+    <label class="um-l">Title <span class="um-opt">(what the client sees)</span></label>
+    <input id="umTitle" type="text" placeholder="e.g. Premium Proposal">
+    <label class="um-l">Description / info <span class="um-opt">(optional)</span></label>
+    <input id="umMeta" type="text" placeholder="e.g. Camera &amp; access upgrade">
+    <label class="um-l">Date sent / received <span class="um-opt">(optional)</span></label>
+    <input id="umSent" type="text" placeholder="e.g. Jun 17, 2026">
+    <div class="err" id="umErr"></div>
+    <div class="um-actions">
+      <button type="button" class="ghost-btn" onclick="closeUploadModal()">Cancel</button>
+      <button type="button" class="gold-btn" id="umGo" onclick="doUpload()">Upload</button>
+    </div>
+  </div>
 </div>
 
 <!-- Firebase SDK (compat build — no bundler needed) -->
@@ -358,8 +396,9 @@
   async function gate(user){
     showScreen('splash');
     try {
-      const adminDoc = await db.collection('admins').doc(user.uid).get();
-      IS_ADMIN = adminDoc.exists;
+      var key = (user.email || '').toLowerCase();
+      const adminDoc = key ? await db.collection('admins').doc(key).get() : { exists: false };
+      IS_ADMIN = !!adminDoc.exists;
     } catch(e){ IS_ADMIN = false; }
     if(IS_ADMIN){ loadAdmin(); }
     else { loadClient(user); }
@@ -571,39 +610,55 @@
       .catch(function(){ el.textContent = label; alert('Sorry — that document isn’t available right now. Please contact Atlas.'); });
   }
 
-  /* ---------- Admin: upload a document to the current client ---------- */
-  function adminUpload(){
+  /* ---------- Admin: upload document via modal ---------- */
+  var UM_FILE = null;
+
+  function openUploadModal(){
     if(!IS_ADMIN || !CURRENT_CLIENT_ID){ return; }
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = function(){
-      var file = input.files && input.files[0];
-      if(!file){ return; }
-      var title = window.prompt('Document title (what the client sees):', file.name.replace(/\.[^.]+$/, ''));
-      if(title === null){ return; }
-      var sentOn = window.prompt('Date sent / received (optional — e.g. Jun 17, 2026):', '') || '';
-      var path = 'clients/' + CURRENT_CLIENT_ID + '/' + file.name;
-      var btn = document.querySelector('#adminUploadWrap .upbtn');
-      if(btn){ btn.disabled = true; btn.textContent = 'Uploading…'; }
-      storage.ref(path).put(file).then(function(){
-        return db.collection('clients').doc(CURRENT_CLIENT_ID).update({
-          documents: firebase.firestore.FieldValue.arrayUnion({
-            title: title || file.name,
-            storagePath: path,
-            sentOn: sentOn,
-            meta: ''
-          })
-        });
-      }).then(function(){
-        if(btn){ btn.disabled = false; btn.textContent = '＋ Upload a document'; }
-        return openClient(CURRENT_CLIENT_ID);
-      }).then(function(){ show('docs'); })
-      .catch(function(ex){
-        if(btn){ btn.disabled = false; btn.textContent = '＋ Upload a document'; }
-        alert('Upload failed: ' + ex.message);
+    UM_FILE = null;
+    $('umFile').value = '';
+    $('umFileName').textContent = 'No file selected';
+    $('umTitle').value = '';
+    $('umMeta').value = '';
+    $('umSent').value = '';
+    $('umClient').textContent = $('adminClientName').textContent || 'this client';
+    $('umErr').classList.remove('show');
+    var go = $('umGo'); go.disabled = false; go.textContent = 'Upload';
+    $('uploadModal').classList.remove('hidden');
+  }
+
+  function closeUploadModal(){ $('uploadModal').classList.add('hidden'); }
+
+  function umPickFile(){
+    var f = $('umFile').files && $('umFile').files[0];
+    UM_FILE = f || null;
+    $('umFileName').textContent = f ? f.name : 'No file selected';
+    if(f && !$('umTitle').value){ $('umTitle').value = f.name.replace(/\.[^.]+$/, ''); }
+  }
+
+  function doUpload(){
+    if(!IS_ADMIN || !CURRENT_CLIENT_ID){ return; }
+    var err = $('umErr'); err.classList.remove('show');
+    if(!UM_FILE){ err.textContent = 'Choose a file first.'; err.classList.add('show'); return; }
+    var title = ($('umTitle').value || UM_FILE.name).trim();
+    var meta = $('umMeta').value.trim();
+    var sentOn = $('umSent').value.trim();
+    var path = 'clients/' + CURRENT_CLIENT_ID + '/' + UM_FILE.name;
+    var go = $('umGo'); go.disabled = true; go.textContent = 'Uploading…';
+    storage.ref(path).put(UM_FILE).then(function(){
+      return db.collection('clients').doc(CURRENT_CLIENT_ID).update({
+        documents: firebase.firestore.FieldValue.arrayUnion({
+          title: title, storagePath: path, sentOn: sentOn, meta: meta
+        })
       });
-    };
-    input.click();
+    }).then(function(){
+      closeUploadModal();
+      return openClient(CURRENT_CLIENT_ID);
+    }).then(function(){ show('docs'); })
+    .catch(function(ex){
+      go.disabled = false; go.textContent = 'Upload';
+      err.textContent = 'Upload failed: ' + ex.message; err.classList.add('show');
+    });
   }
 </script>
 </body>
