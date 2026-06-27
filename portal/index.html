@@ -30,6 +30,12 @@
   .btn:hover{background:var(--navy2)}
   .btn[disabled]{opacity:.6;cursor:default}
   .login-card .btn{margin-top:22px}
+  .orline{display:flex;align-items:center;text-align:center;color:#9aa6b3;font-size:11.5px;margin-top:16px}
+  .orline::before,.orline::after{content:"";flex:1;height:1px;background:var(--line)}
+  .orline span{padding:0 12px}
+  .gbtn{margin-top:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#3c4043;border:1px solid var(--line);border-radius:9px;font-weight:600;font-size:14px;padding:12px;cursor:pointer;font-family:inherit}
+  .gbtn:hover{background:#f7f9fc}
+  .gbtn svg{width:18px;height:18px;flex-shrink:0}
   .forgot{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:16px;cursor:pointer}
   .pwtoggle{float:right;font-weight:700;color:var(--navy2);cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
   .powered{text-align:center;font-size:11px;color:#9aa6b3;margin-top:22px}
@@ -104,7 +110,7 @@
 <!-- ===== LOGIN ===== -->
 <div id="login" class="hidden">
   <form class="login-card" onsubmit="return doSignIn(event)">
-    <img src="https://atlasvisionsystems.com/Logo.png" class="login-logo" alt="Atlas">
+    <a href="https://atlasvisionsystems.com" title="Back to atlasvisionsystems.com"><img src="https://atlasvisionsystems.com/Logo.png" class="login-logo" alt="Atlas"></a>
     <h1>Client Portal</h1>
     <div class="sub">Sign in to your Atlas Vision Systems account</div>
     <label>Email</label>
@@ -112,6 +118,11 @@
     <label>Password <span id="pwToggle" class="pwtoggle" onclick="togglePw()">Show</span></label>
     <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
     <button class="btn" id="loginBtn" type="submit">Sign In</button>
+    <div class="orline"><span>or</span></div>
+    <button class="gbtn" type="button" onclick="doGoogle()">
+      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google
+    </button>
     <div class="err" id="loginErr"></div>
     <span class="forgot" onclick="doReset()">Forgot your password?</span>
     <div class="powered">Secured by Atlas Vision Systems</div>
@@ -121,7 +132,7 @@
 <!-- ===== APP ===== -->
 <div id="app" class="hidden">
   <div class="topbar">
-    <div class="tb-brand"><img id="brandLogo" src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
+    <div class="tb-brand" style="cursor:pointer" onclick="show('home')" title="Dashboard home"><img id="brandLogo" src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
     <div class="tb-right">
       <div class="tb-client"><b id="tbName">—</b><br><span id="tbLoc">—</span></div>
       <div class="avatar" id="tbInitials">—</div>
@@ -312,6 +323,17 @@
 
   function doSignOut(){ auth.signOut(); }
 
+  function doGoogle(){
+    const err = $('loginErr');
+    err.classList.remove('show');
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(function(ex){
+      if(ex.code === 'auth/popup-closed-by-user' || ex.code === 'auth/cancelled-popup-request') return;
+      err.textContent = friendlyError(ex.code);
+      err.classList.add('show');
+    });
+  }
+
   function doReset(){
     const email = $('email').value.trim();
     const err = $('loginErr');
@@ -329,6 +351,8 @@
       case 'auth/wrong-password':
       case 'auth/invalid-credential': return 'Email or password is incorrect.';
       case 'auth/too-many-requests': return 'Too many attempts. Try again in a few minutes.';
+      case 'auth/unauthorized-domain': return 'This site isn’t authorized for Google sign-in yet.';
+      case 'auth/popup-blocked': return 'Your browser blocked the sign-in popup. Allow popups and retry.';
       default: return 'Sign-in failed. Please try again.';
     }
   }
