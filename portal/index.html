@@ -14,14 +14,13 @@
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:var(--navy2);text-decoration:none}
-  .mock{background:#fffbe9;border-bottom:1px solid #f0e3a8;color:#7a6a1f;font-size:12px;text-align:center;padding:7px}
   .hidden{display:none!important}
 
   /* LOGIN */
   #login{min-height:100vh;display:flex;align-items:center;justify-content:center;
     background:linear-gradient(150deg,var(--navy),var(--navy2));padding:24px}
   .login-card{background:#fff;border-radius:16px;padding:38px 34px;width:100%;max-width:390px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
-  .login-logo{width:62px;height:62px;border-radius:14px;display:block;margin:0 auto 14px}
+  .login-logo{width:62px;height:62px;border-radius:14px;display:block;margin:0 auto 14px;object-fit:contain}
   .login-card h1{font-size:20px;text-align:center;color:var(--navy)}
   .login-card .sub{text-align:center;color:var(--muted);font-size:13.5px;margin:5px 0 22px}
   label{display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin:14px 0 5px}
@@ -29,15 +28,20 @@
   input:focus{outline:none;border-color:var(--navy2)}
   .btn{background:var(--navy);color:#fff;border:none;border-radius:9px;font-weight:600;font-size:14.5px;padding:13px;cursor:pointer;transition:.15s;width:100%}
   .btn:hover{background:var(--navy2)}
-  .btn.gold{background:var(--gold);color:var(--navy)}
+  .btn[disabled]{opacity:.6;cursor:default}
   .login-card .btn{margin-top:22px}
-  .forgot{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:16px}
+  .forgot{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:16px;cursor:pointer}
   .powered{text-align:center;font-size:11px;color:#9aa6b3;margin-top:22px}
+  .err{background:#fff4ef;border:1px solid #f3c9b8;color:#b4451f;font-size:12.5px;padding:9px 11px;border-radius:8px;margin-top:14px;display:none}
+  .err.show{display:block}
+
+  /* loading splash */
+  #splash{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,var(--navy),var(--navy2));color:#fff;font-size:14px;letter-spacing:.3px}
 
   /* APP */
-  topbar,.topbar{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#fff;padding:13px 22px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#fff;padding:13px 22px}
   .tb-brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:15px}
-  .tb-brand img{width:32px;height:32px;border-radius:7px;background:#fff}
+  .tb-brand img{width:32px;height:32px;border-radius:7px;background:#fff;object-fit:contain}
   .tb-right{display:flex;align-items:center;gap:14px;font-size:13px}
   .tb-client{text-align:right;line-height:1.25}
   .tb-client b{font-size:13.5px}
@@ -81,41 +85,46 @@
   .stat .l{font-size:12px;color:var(--muted);margin-top:2px}
   .doc{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
   .doc:last-child{border:none}
-  .doc .fi{width:34px;height:34px;border-radius:8px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:16px}
+  .doc .fi{width:34px;height:34px;border-radius:8px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
   .doc .dl{margin-left:auto;color:var(--navy2);font-size:12.5px;font-weight:600;cursor:pointer}
+  .doc .dl.off{color:#9aa6b3;cursor:default}
   .gold-btn{background:var(--gold);color:var(--navy);border:none;border-radius:9px;font-weight:700;font-size:13.5px;padding:11px 18px;cursor:pointer}
   .ghost-btn{background:transparent;border:1.5px solid var(--line);color:var(--navy);border-radius:9px;font-weight:600;font-size:13.5px;padding:11px 18px;cursor:pointer}
   .note{font-size:12.5px;color:var(--muted);margin-top:10px}
+  .empty{color:var(--muted);font-size:13.5px;padding:6px 0}
   footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}
 </style>
 </head>
 <body>
 
+<!-- ===== LOADING SPLASH ===== -->
+<div id="splash">Loading your portal…</div>
+
 <!-- ===== LOGIN ===== -->
-<div id="login">
-  <form class="login-card" onsubmit="signIn(event)">
+<div id="login" class="hidden">
+  <form class="login-card" onsubmit="return doSignIn(event)">
     <img src="https://atlasvisionsystems.com/Logo.png" class="login-logo" alt="Atlas">
     <h1>Client Portal</h1>
     <div class="sub">Sign in to your Atlas Vision Systems account</div>
     <label>Email</label>
-    <input type="email" placeholder="you@yourproperty.com" required>
+    <input id="email" type="email" placeholder="you@yourproperty.com" autocomplete="username" required>
     <label>Password</label>
-    <input type="password" placeholder="••••••••" required>
-    <button class="btn" type="submit">Sign In</button>
-    <a href="#" class="forgot" onclick="return false">Forgot your password?</a>
+    <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
+    <button class="btn" id="loginBtn" type="submit">Sign In</button>
+    <div class="err" id="loginErr"></div>
+    <span class="forgot" onclick="doReset()">Forgot your password?</span>
     <div class="powered">Secured by Atlas Vision Systems</div>
   </form>
 </div>
 
 <!-- ===== APP ===== -->
 <div id="app" class="hidden">
-  <div class="mock">PROTOTYPE — sample client view for review. Real logins, per-client data, live billing &amp; documents come with the full build.</div>
   <div class="topbar">
-    <div class="tb-brand"><img src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
+    <div class="tb-brand"><img id="brandLogo" src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
     <div class="tb-right">
-      <div class="tb-client"><b>Congregation B'nai Jehudah</b><br><span>Overland Park, KS</span></div>
-      <div class="avatar">BJ</div>
-      <span class="signout" onclick="signOut()">Sign out</span>
+      <div class="tb-client"><b id="tbName">—</b><br><span id="tbLoc">—</span></div>
+      <div class="avatar" id="tbInitials">—</div>
+      <span class="signout" onclick="doSignOut()">Sign out</span>
     </div>
   </div>
 
@@ -124,10 +133,10 @@
     <div id="home">
       <div class="welcome">
         <div>
-          <h2>Welcome back, B'nai Jehudah</h2>
-          <p>Your smart property technology, all in one place.</p>
+          <h2 id="welcomeName">Welcome back</h2>
+          <p id="welcomeNote">Your smart property technology, all in one place.</p>
         </div>
-        <span class="status"><span class="dot"></span> All systems healthy</span>
+        <span class="status"><span class="dot"></span> <span id="healthLabel">All systems healthy</span></span>
       </div>
       <div class="grid">
         <div class="tile" onclick="show('guides')">
@@ -169,12 +178,9 @@
       <h2>How-To Guides</h2>
       <p class="lead">Your private help center, built around your exact system.</p>
       <div class="panel">
-        <div class="row"><span>🛎️ Front Desk — answer intercom, screen visitors, pull footage</span><span class="meta">4 guides</span></div>
-        <div class="row"><span>🗝️ Administrators — add users, issue fobs, door schedules, reports</span><span class="meta">5 guides</span></div>
-        <div class="row"><span>🛠️ IT / Tech — system health, safe reboots</span><span class="meta">3 guides</span></div>
-        <div class="row"><span>🔒 Emergency — building lockdown</span><span class="meta">1 guide</span></div>
-        <div style="margin-top:16px"><a href="https://bnai.atlasvisionsystems.com" target="_blank"><button class="gold-btn">Open Full Help Center →</button></a></div>
-        <div class="note">In the live portal this links straight to your dedicated guides.</div>
+        <div id="guidesList"></div>
+        <div style="margin-top:16px"><a id="helpCenterLink" href="#" target="_blank"><button class="gold-btn">Open Full Help Center →</button></a></div>
+        <div class="note">This links straight to your dedicated guides.</div>
       </div>
     </div>
 
@@ -182,15 +188,15 @@
     <div id="billing" class="sec hidden">
       <span class="back" onclick="show('home')">← Back to dashboard</span>
       <h2>Billing &amp; Autopay</h2>
-      <p class="lead">Manage your monthly Operations Partner plan.</p>
+      <p class="lead">Manage your monthly support plan.</p>
       <div class="big">
-        <div class="stat"><div class="n">$0.00</div><div class="l">Current balance</div></div>
-        <div class="stat"><div class="n">Jul 1</div><div class="l">Next payment</div></div>
-        <div class="stat"><div class="n">On</div><div class="l">Autopay status</div></div>
+        <div class="stat"><div class="n" id="balance">—</div><div class="l">Current balance</div></div>
+        <div class="stat"><div class="n" id="nextPay">—</div><div class="l">Next payment</div></div>
+        <div class="stat"><div class="n" id="autopay">—</div><div class="l">Autopay status</div></div>
       </div>
       <div class="panel">
         <h4>Payment method</h4>
-        <div class="row"><span>💳 Visa ending 4242</span><span class="meta">Auto-charged monthly</span></div>
+        <div class="row"><span id="cardLabel">—</span><span class="meta">Auto-charged monthly</span></div>
         <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
           <button class="gold-btn">Manage Autopay</button>
           <button class="ghost-btn">Update Card</button>
@@ -199,9 +205,7 @@
       </div>
       <div class="panel">
         <h4>Recent invoices</h4>
-        <div class="row"><span>Operations Partner — June 2026</span><span><span class="pill paid">PAID</span></span></div>
-        <div class="row"><span>Operations Partner — May 2026</span><span><span class="pill paid">PAID</span></span></div>
-        <div class="row"><span>Install — 50% on signing</span><span><span class="pill paid">PAID</span></span></div>
+        <div id="invoiceList"></div>
       </div>
     </div>
 
@@ -211,10 +215,7 @@
       <h2>Documents &amp; Agreements</h2>
       <p class="lead">Your important paperwork, stored securely and always available.</p>
       <div class="panel">
-        <div class="doc"><div class="fi">📄</div><div><b>Service Agreement</b><div class="meta">Signed Jun 2026 · NAC Investments LLC</div></div><span class="dl">Download</span></div>
-        <div class="doc"><div class="fi">📄</div><div><b>Security Upgrade Proposal</b><div class="meta">Premium package · 33 cameras · 10 doors</div></div><span class="dl">Download</span></div>
-        <div class="doc"><div class="fi">🛡️</div><div><b>UI Care Warranty (5-yr)</b><div class="meta">Coverage certificate</div></div><span class="dl">Download</span></div>
-        <div class="doc"><div class="fi">📄</div><div><b>As-Built Documentation</b><div class="meta">Equipment list &amp; labeling</div></div><span class="dl">Download</span></div>
+        <div id="docList"></div>
       </div>
     </div>
 
@@ -223,18 +224,10 @@
       <span class="back" onclick="show('home')">← Back to dashboard</span>
       <h2>My System</h2>
       <p class="lead">What Atlas installed and supports at your property.</p>
-      <div class="big">
-        <div class="stat"><div class="n">33</div><div class="l">Cameras</div></div>
-        <div class="stat"><div class="n">10</div><div class="l">Access doors</div></div>
-        <div class="stat"><div class="n">~75 days</div><div class="l">Footage retention</div></div>
-        <div class="stat"><div class="n">100</div><div class="l">NFC fobs</div></div>
-      </div>
+      <div class="big" id="systemStats"></div>
       <div class="panel">
         <h4>Equipment</h4>
-        <div class="row"><span>Enterprise NVR + 8× 24TB drives</span><span class="meta">Recording</span></div>
-        <div class="row"><span>8× G6 Reader Pro Entry + 2 intercoms</span><span class="meta">Access</span></div>
-        <div class="row"><span>AI Key — smart analytics</span><span class="meta">Detection</span></div>
-        <div class="row"><span>2× UniFi Pro Max 48 PoE switches</span><span class="meta">Network</span></div>
+        <div id="equipList"></div>
       </div>
     </div>
 
@@ -244,12 +237,11 @@
       <h2>Support</h2>
       <p class="lead">We're your single point of contact — cameras, doors, footage, all of it.</p>
       <div class="panel">
-        <h4>Your plan: Operations Partner</h4>
-        <div class="row"><span>Remote monitoring + twice-weekly checks</span><span class="meta">Active</span></div>
-        <div class="row"><span>Priority on-site &amp; twice-a-year reviews</span><span class="meta">Active</span></div>
+        <h4 id="supportTier">Your plan</h4>
+        <div id="supportRows"></div>
         <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
           <button class="gold-btn">Open a Request</button>
-          <button class="ghost-btn">Call Atlas — 314-313-0403</button>
+          <button class="ghost-btn" id="supportPhone">Call Atlas</button>
         </div>
       </div>
     </div>
@@ -260,24 +252,177 @@
       <h2>Recent Activity</h2>
       <p class="lead">Updates and notices from Atlas about your system.</p>
       <div class="panel">
-        <div class="row"><span>✅ Monthly system health check completed</span><span class="meta">2 days ago</span></div>
-        <div class="row"><span>🔄 Firmware &amp; security updates applied</span><span class="meta">1 week ago</span></div>
-        <div class="row"><span>🎥 Footage export delivered (south lot)</span><span class="meta">2 weeks ago</span></div>
-        <div class="row"><span>👤 3 new staff credentials enrolled</span><span class="meta">3 weeks ago</span></div>
+        <div id="activityList"></div>
       </div>
     </div>
   </main>
-  <footer>Atlas Vision Systems · Client Portal &nbsp;|&nbsp; Prototype for review</footer>
+  <footer>Atlas Vision Systems · Client Portal</footer>
 </div>
 
+<!-- Firebase SDK (compat build — no bundler needed) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <script>
-  function signIn(e){ e.preventDefault(); document.getElementById('login').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); window.scrollTo(0,0); }
-  function signOut(){ document.getElementById('app').classList.add('hidden'); document.getElementById('login').classList.remove('hidden'); show('home'); }
+  /* ============================================================
+     1) PASTE YOUR FIREBASE WEB CONFIG BELOW.
+        Firebase console → Project settings → "Your apps" → Web app → SDK setup.
+        These keys are PUBLIC client-side keys — safe to live in this file.
+     ============================================================ */
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpIT-g3KUH-61p-IBNGkJQhoDJilZ1g4g",
+    authDomain: "atlas-portal-ac5b4.firebaseapp.com",
+    projectId: "atlas-portal-ac5b4",
+    storageBucket: "atlas-portal-ac5b4.firebasestorage.app",
+    messagingSenderId: "810718211378",
+    appId: "1:810718211378:web:6f47fa342d36c25b01bb2b"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const $ = function(id){ return document.getElementById(id); };
+  function showScreen(which){
+    ['splash','login','app'].forEach(function(s){ $(s).classList.add('hidden'); });
+    $(which).classList.remove('hidden');
+  }
+
+  /* ---------- Auth state ---------- */
+  auth.onAuthStateChanged(function(user){
+    if(user){ loadClient(user); }
+    else { showScreen('login'); }
+  });
+
+  function doSignIn(e){
+    e.preventDefault();
+    const btn = $('loginBtn'); const err = $('loginErr');
+    err.classList.remove('show');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    auth.signInWithEmailAndPassword($('email').value.trim(), $('password').value)
+      .catch(function(ex){
+        err.textContent = friendlyError(ex.code);
+        err.classList.add('show');
+        btn.disabled = false; btn.textContent = 'Sign In';
+      });
+    return false;
+  }
+
+  function doSignOut(){ auth.signOut(); }
+
+  function doReset(){
+    const email = $('email').value.trim();
+    const err = $('loginErr');
+    if(!email){ err.textContent = 'Enter your email above first, then tap reset.'; err.classList.add('show'); return; }
+    auth.sendPasswordResetEmail(email)
+      .then(function(){ err.style.cssText='background:#eaf6ef;border-color:#c9e6d6;color:#1f8a5b'; err.textContent='Password reset email sent — check your inbox.'; err.classList.add('show'); })
+      .catch(function(ex){ err.textContent = friendlyError(ex.code); err.classList.add('show'); });
+  }
+
+  function friendlyError(code){
+    switch(code){
+      case 'auth/invalid-email': return 'That doesn’t look like a valid email.';
+      case 'auth/user-disabled': return 'This account has been disabled. Contact Atlas.';
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential': return 'Email or password is incorrect.';
+      case 'auth/too-many-requests': return 'Too many attempts. Try again in a few minutes.';
+      default: return 'Sign-in failed. Please try again.';
+    }
+  }
+
+  /* ---------- Load this client's data ---------- */
+  async function loadClient(user){
+    showScreen('splash');
+    try{
+      const userDoc = await db.collection('users').doc(user.uid).get();
+      if(!userDoc.exists){ throw new Error('no-user-mapping'); }
+      const clientId = userDoc.data().clientId;
+      const clientDoc = await db.collection('clients').doc(clientId).get();
+      if(!clientDoc.exists){ throw new Error('no-client'); }
+      render(clientDoc.data());
+      showScreen('app');
+      show('home');
+    }catch(ex){
+      // Signed in but not provisioned to a client yet.
+      auth.signOut();
+      const err = $('loginErr');
+      err.textContent = 'Your account isn’t linked to a property yet. Contact Atlas.';
+      err.classList.add('show');
+      showScreen('login');
+    }
+  }
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  function render(c){
+    // Branding / header
+    $('brandLogo').src = c.logoUrl || 'https://atlasvisionsystems.com/Logo.png';
+    $('tbName').textContent = c.name || '';
+    $('tbLoc').textContent = c.location || '';
+    $('tbInitials').textContent = c.initials || (c.name? c.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() : '—');
+    $('welcomeName').textContent = 'Welcome back, ' + (c.shortName || c.name || '');
+    $('welcomeNote').textContent = c.welcomeNote || 'Your smart property technology, all in one place.';
+    $('healthLabel').textContent = c.healthLabel || 'All systems healthy';
+
+    // Guides
+    var g = (c.guideGroups||[]);
+    $('guidesList').innerHTML = g.length ? g.map(function(x){
+      return '<div class="row"><span>'+esc(x.label)+'</span><span class="meta">'+esc(x.count)+'</span></div>';
+    }).join('') : '<div class="empty">Your guides will appear here once your system is set up.</div>';
+    $('helpCenterLink').href = c.helpCenterUrl || 'https://bnai.atlasvisionsystems.com';
+
+    // Billing
+    var b = c.billing||{};
+    $('balance').textContent = b.balance || '$0.00';
+    $('nextPay').textContent = b.nextPayment || '—';
+    $('autopay').textContent = b.autopay || 'Off';
+    $('cardLabel').textContent = b.cardLabel || 'No card on file';
+    var inv = (b.invoices||[]);
+    $('invoiceList').innerHTML = inv.length ? inv.map(function(x){
+      var cls = (x.status||'').toLowerCase()==='paid' ? 'paid' : 'due';
+      return '<div class="row"><span>'+esc(x.label)+'</span><span><span class="pill '+cls+'">'+esc(x.status)+'</span></span></div>';
+    }).join('') : '<div class="empty">No invoices yet.</div>';
+
+    // Documents (download wired in the Drive step — disabled for now)
+    var docs = (c.documents||[]);
+    $('docList').innerHTML = docs.length ? docs.map(function(x){
+      return '<div class="doc"><div class="fi">'+esc(x.icon||'📄')+'</div><div><b>'+esc(x.title)+'</b><div class="meta">'+esc(x.meta||'')+'</div></div>'+
+             '<span class="dl off" title="Secure downloads activate once your documents are connected">Download</span></div>';
+    }).join('') : '<div class="empty">Your documents will appear here.</div>';
+
+    // System
+    var stats = (c.systemStats||[]);
+    $('systemStats').innerHTML = stats.length ? stats.map(function(x){
+      return '<div class="stat"><div class="n">'+esc(x.n)+'</div><div class="l">'+esc(x.l)+'</div></div>';
+    }).join('') : '<div class="empty">System details will appear here after install.</div>';
+    var eq = (c.equipment||[]);
+    $('equipList').innerHTML = eq.length ? eq.map(function(x){
+      return '<div class="row"><span>'+esc(x.name)+'</span><span class="meta">'+esc(x.tag||'')+'</span></div>';
+    }).join('') : '<div class="empty">No equipment on file yet.</div>';
+
+    // Support
+    $('supportTier').textContent = 'Your plan: ' + (c.supportTier || '—');
+    var sr = (c.supportRows||[]);
+    $('supportRows').innerHTML = sr.length ? sr.map(function(x){
+      return '<div class="row"><span>'+esc(x.text)+'</span><span class="meta">'+esc(x.tag||'Active')+'</span></div>';
+    }).join('') : '<div class="empty">Support details will appear here.</div>';
+    $('supportPhone').textContent = 'Call Atlas — ' + (c.supportPhone || '314-313-0403');
+
+    // Activity
+    var act = (c.activity||[]);
+    $('activityList').innerHTML = act.length ? act.map(function(x){
+      return '<div class="row"><span>'+esc(x.text)+'</span><span class="meta">'+esc(x.when||'')+'</span></div>';
+    }).join('') : '<div class="empty">No recent activity.</div>';
+  }
+
+  /* ---------- Section navigation ---------- */
   function show(id){
     ['home','guides','billing','docs','system','support','activity'].forEach(function(s){
-      document.getElementById(s).classList.add('hidden');
+      $(s).classList.add('hidden');
     });
-    document.getElementById(id).classList.remove('hidden');
+    $(id).classList.remove('hidden');
     window.scrollTo(0,0);
   }
 </script>
