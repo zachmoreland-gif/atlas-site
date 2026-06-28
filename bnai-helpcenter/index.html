@@ -1,1 +1,700 @@
-placeholder
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B'nai Jehudah Security — Help Center</title>
+<style>
+  :root{
+    --navy:#1A3A5C; --navy2:#23507f; --gold:#C8A84B; --bg:#f4f6f9;
+    --card:#ffffff; --line:#e2e8f0; --ink:#1f2a37; --muted:#64748b;
+    --good:#1f8a5b; --warn:#b4451f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--navy2);text-decoration:none}
+
+  header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}
+  .topbar{max-width:1080px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .logo{width:40px;height:40px;border:2px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);font-size:18px}
+  .brand .t1{font-weight:700;font-size:15px;letter-spacing:.3px}
+  .brand .t2{font-size:11px;opacity:.8;letter-spacing:.5px;text-transform:uppercase}
+  .powered{font-size:11px;opacity:.85;text-align:right}
+  .powered b{color:var(--gold)}
+  .hero{max-width:1080px;margin:0 auto;padding:8px 22px 30px}
+  .hero h1{font-size:26px;font-weight:700;margin-bottom:6px}
+  .hero p{opacity:.9;max-width:640px;font-size:14.5px}
+  .search{margin-top:18px;position:relative;max-width:560px}
+  .search input{width:100%;padding:14px 16px 14px 44px;border-radius:10px;border:none;font-size:15px;color:var(--ink)}
+  .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.5}
+
+  main{max-width:1080px;margin:0 auto;padding:26px 22px 60px}
+
+  .roles{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .role{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:14px 16px;cursor:pointer;transition:.15s;border-left:4px solid transparent}
+  .role:hover{box-shadow:0 4px 16px rgba(26,58,92,.08);transform:translateY(-1px)}
+  .role.active{border-left-color:var(--gold);box-shadow:0 4px 16px rgba(26,58,92,.10)}
+  .role .ico{font-size:20px}
+  .role .rt{font-weight:700;font-size:14.5px;margin-top:4px}
+  .role .rd{font-size:12px;color:var(--muted);margin-top:2px}
+
+  .emg{background:#fff4ef;border:1px solid #f3c7b3;border-left:4px solid var(--warn);border-radius:10px;
+    padding:12px 16px;margin-bottom:22px;display:flex;align-items:center;gap:12px;cursor:pointer}
+  .emg .e1{font-weight:700;color:var(--warn);font-size:14px}
+  .emg .e2{font-size:12.5px;color:#7a4a36}
+  .emg .chev{margin-left:auto;color:var(--warn);font-weight:700}
+
+  .secttl{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);
+    font-weight:700;margin:26px 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;align-items:start}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:.15s}
+  .card:hover{box-shadow:0 6px 20px rgba(26,58,92,.10)}
+  .card .head{padding:14px 16px;cursor:pointer;display:flex;align-items:flex-start;gap:12px}
+  .card .tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+    padding:3px 7px;border-radius:5px;background:#eef2f7;color:var(--navy2);white-space:nowrap}
+  .card .htxt{flex:1}
+  .card .ctt{font-weight:600;font-size:14.5px}
+  .card .cmeta{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .card .plus{color:var(--muted);font-size:18px;transition:.2s}
+  .card.open .plus{transform:rotate(45deg)}
+  .body{display:none;padding:14px 16px 16px;border-top:1px solid var(--line)}
+  .card.open .body{display:block}
+
+  /* platform toggle */
+  .ptabs{display:inline-flex;background:#eef2f7;border-radius:9px;padding:3px;margin-bottom:4px}
+  .pt{border:none;background:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);
+    padding:6px 13px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:5px}
+  .pt.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(26,58,92,.15)}
+  .pane{display:none}
+  .pane.show{display:block}
+
+  .vid{margin:12px 0;background:#0e2236;border-radius:10px;aspect-ratio:16/9;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;color:#9db4cc;gap:6px;cursor:pointer}
+  .vid .play{width:46px;height:46px;border-radius:50%;background:var(--gold);color:var(--navy);
+    display:flex;align-items:center;justify-content:center;font-size:18px}
+  .vid small{font-size:11px;opacity:.8}
+  ol.steps{margin:8px 0 4px;padding-left:0;list-style:none;counter-reset:s}
+  ol.steps li{counter-increment:s;padding:8px 0 8px 38px;position:relative;font-size:14px;border-bottom:1px dashed var(--line)}
+  ol.steps li:last-child{border-bottom:none}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;
+    background:var(--navy);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700}
+  .tip{background:#eef6f1;border-left:3px solid var(--good);padding:9px 12px;border-radius:6px;
+    font-size:13px;margin-top:12px;color:#235c43}
+  .tip b{color:var(--good)}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .panel h3{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .qr-list{list-style:none}
+  .qr-list li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+  .qr-list li:last-child{border:none}
+  .qr-list .k{color:var(--muted)}
+  .qr-list .v{font-weight:600}
+  .support .row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13.5px}
+  .support .row b{display:block}
+  .badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;
+    padding:3px 9px;border-radius:20px;margin-bottom:10px}
+  .qrbox{display:flex;gap:14px;align-items:center;background:#f8fafc;border:1px dashed var(--line);
+    border-radius:10px;padding:14px;margin-top:14px}
+  .qrbox .sq{width:78px;height:78px;background:
+     conic-gradient(from 0deg,#1A3A5C 25%,#fff 0 50%,#1A3A5C 0 75%,#fff 0);
+     background-size:13px 13px;border:3px solid var(--navy);border-radius:6px;flex-shrink:0}
+  .qrbox div{font-size:12.5px;color:var(--muted)}
+
+  footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:12px}
+  .empty{text-align:center;color:var(--muted);padding:40px;display:none}
+  .mocknote{background:#fffbe9;border:1px solid #f0e3a8;color:#7a6a1f;font-size:12px;
+    text-align:center;padding:8px;border-radius:8px;margin-bottom:18px}
+  @media(max-width:680px){.twocol{grid-template-columns:1fr}.hero h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div>
+        <div class="t1">B'nai Jehudah Security System</div>
+        <div class="t2">Help Center &amp; How-To Guides</div>
+      </div>
+    </div>
+    <div class="powered">Built &amp; maintained by<br><b>Atlas Vision Systems</b></div>
+  </div>
+  <div class="hero">
+    <h1>How can we help?</h1>
+    <p>Step-by-step guides for your UniFi cameras, doors, and intercoms — each one shown for both the <b>computer</b> and the <b>phone app</b>. Pick your role or search below.</p>
+    <div class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A3A5C" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search how-tos — e.g. &quot;pull footage&quot;, &quot;add a fob&quot;, &quot;answer intercom&quot;" oninput="filter()">
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="mocknote">PROTOTYPE — sample content &amp; layout for review. Real screen-recordings (computer &amp; phone) and your exact door names get added during install.</div>
+
+  <div class="roles" id="roles">
+    <div class="role active" data-role="all" onclick="setRole(this)"><div class="ico">📋</div><div class="rt">All Guides</div><div class="rd">Everything in one place</div></div>
+    <div class="role" data-role="frontdesk" onclick="setRole(this)"><div class="ico">🛎️</div><div class="rt">Front Desk</div><div class="rd">Reception &amp; visitors</div></div>
+    <div class="role" data-role="admin" onclick="setRole(this)"><div class="ico">🗝️</div><div class="rt">Administrators</div><div class="rd">Users, doors &amp; reports</div></div>
+    <div class="role" data-role="it" onclick="setRole(this)"><div class="ico">🛠️</div><div class="rt">IT / Tech Contact</div><div class="rd">System &amp; troubleshooting</div></div>
+  </div>
+
+  <div class="emg" data-role="frontdesk admin" data-cat="emergency" onclick="toggleCardFromBanner()">
+    <span style="font-size:20px">🔒</span>
+    <div>
+      <div class="e1">Emergency: Lock Down All Doors</div>
+      <div class="e2">One-tap building lockdown from the computer or phone — jump to the guide</div>
+    </div>
+    <span class="chev">→</span>
+  </div>
+
+  <div id="results">
+    <div class="empty" id="empty">No guides match that search. Try a different term.</div>
+
+    <!-- ===== EVERYDAY ===== -->
+    <div class="secttl sec">Everyday Tasks</div>
+    <div class="grid">
+
+      <div class="card" data-role="frontdesk" data-cat="intercom" data-kw="answer intercom visitor door buzz let in entry release reception computer phone app">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Front Desk</span>
+          <div class="htxt"><div class="ctt">Answer the intercom &amp; let a visitor in</div><div class="cmeta">Intercom · computer + phone · video</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <div class="vid" onclick="event.stopPropagation()"><div class="play">▶</div><small>Computer screen-recording added after install</small></div>
+            <ol class="steps">
+              <li>When a door intercom is pressed, the call rings on the <b>Intercom Viewer</b> and the <b>reception PC</b>, showing their live video.</li>
+              <li>Click <b>Answer</b> to talk through two-way audio.</li>
+              <li>Confirm who they are and who they're visiting.</li>
+              <li>Click the <b>unlock</b> (door) icon to release the door.</li>
+              <li>The door re-locks automatically.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <div class="vid" onclick="event.stopPropagation()"><div class="play">▶</div><small>Phone screen-recording added after install</small></div>
+            <ol class="steps">
+              <li>Your phone gets a call notification from the <b>UniFi Access</b> app.</li>
+              <li>Tap <b>Answer</b> to see their video and talk.</li>
+              <li>Confirm them, then tap the <b>unlock</b> icon.</li>
+              <li>The door re-locks on its own.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Tip:</b> Answer from your phone when you step away from the desk — the call rings both places.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="frontdesk" data-cat="visitor" data-kw="screen visitor reception viewer who is at door check guest computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Front Desk</span>
+          <div class="htxt"><div class="ctt">Screen a visitor before letting them in</div><div class="cmeta">Intercom · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>The reception <b>Intercom Viewer</b> / PC shows live feeds from the public-entry doors.</li>
+              <li>Click a door tile to enlarge its camera and see who's there.</li>
+              <li>Use two-way audio to speak before granting entry.</li>
+              <li>Release the door from the same screen once confirmed.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Access</b> app and go to <b>Doors / Live</b>.</li>
+              <li>Tap the public-entry door to view its camera.</li>
+              <li>Speak via two-way audio, then tap <b>unlock</b>.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-role="frontdesk it" data-cat="footage" data-kw="pull footage export video evidence incident playback download clip timeline scrub recording computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Front Desk</span>
+          <div class="htxt"><div class="ctt">Find &amp; export footage of an incident</div><div class="cmeta">Cameras · computer + phone · video</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <div class="vid" onclick="event.stopPropagation()"><div class="play">▶</div><small>Computer screen-recording added after install</small></div>
+            <ol class="steps">
+              <li>Open <b>UniFi Protect</b> in a browser and go to <b>History</b> (timeline).</li>
+              <li>Pick the camera and set the date &amp; time.</li>
+              <li>Drag the timeline to the moment — motion events are marked.</li>
+              <li>Click <b>Export</b>, set the clip's start and end, and download the file.</li>
+              <li>Save it somewhere safe, or share with Atlas / authorities.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <div class="vid" onclick="event.stopPropagation()"><div class="play">▶</div><small>Phone screen-recording added after install</small></div>
+            <ol class="steps">
+              <li>Open the <b>UniFi Protect</b> app and tap the camera.</li>
+              <li>Tap <b>History / Timeline</b> and scrub to the time.</li>
+              <li>Tap <b>Export / Share</b> and trim the clip.</li>
+              <li>Save it to your phone or share the link.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Good to know:</b> Your system keeps roughly 75 days of high-quality footage, with extra weeks at lower quality beyond that.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="frontdesk" data-cat="live" data-kw="live view cameras watch wall monitor see all feeds protect computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Front Desk</span>
+          <div class="htxt"><div class="ctt">Pull up live camera views</div><div class="cmeta">Cameras · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Protect</b> on the reception PC.</li>
+              <li>Choose <b>Live View</b> to see all 33 cameras at once, or click one to enlarge.</li>
+              <li>Save a custom layout (e.g. "Entrances") so it loads the same way each time.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Protect</b> app and tap the <b>Live</b> tab.</li>
+              <li>Swipe between cameras, or tap the grid icon to see several at once.</li>
+              <li>Pinch to zoom on any feed.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== PEOPLE & ACCESS ===== -->
+    <div class="secttl sec">People &amp; Access</div>
+    <div class="grid">
+
+      <div class="card" data-role="admin" data-cat="users" data-kw="add staff volunteer new user identity enroll onboard person account create computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Add a new staff member or volunteer</div><div class="cmeta">UniFi Identity · computer + phone · video</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <div class="vid" onclick="event.stopPropagation()"><div class="play">▶</div><small>Computer screen-recording added after install</small></div>
+            <ol class="steps">
+              <li>Open <b>UniFi Identity</b> in a browser and click <b>Add User</b>.</li>
+              <li>Enter their name and email — they'll get an invite to set up the app.</li>
+              <li>Assign them to a <b>group</b> (Staff, Clergy, Volunteers) — this controls which doors they can open.</li>
+              <li>Once they accept, they can unlock with phone, Apple Wallet, fob, PIN, or face.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <div class="vid" onclick="event.stopPropagation()"><div class="play">▶</div><small>Phone screen-recording added after install</small></div>
+            <ol class="steps">
+              <li>Open the <b>UniFi Identity</b> admin app and tap <b>Users → Add</b>.</li>
+              <li>Enter their name and email to send the invite.</li>
+              <li>Set their <b>group</b> to apply the right door access.</li>
+              <li>They're provisioned the moment they accept.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Why groups matter:</b> Set the door rules once per group, and every new person inherits them automatically.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="admin frontdesk" data-cat="fob" data-kw="fob nfc card issue assign revoke deactivate lost credential key tag computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Issue or revoke an NFC fob</div><div class="cmeta">Credentials · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>In <b>UniFi Identity</b> (web), open the person's profile and choose <b>Assign Credential → NFC</b>.</li>
+              <li>Tap one of your fobs to a reader to register it to them.</li>
+              <li>To revoke a lost fob, open their profile and <b>Remove</b> the credential — instant.</li>
+              <li>Need more fobs? They're a standard re-orderable pack — no vendor lock-in.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>In the <b>UniFi Access / Identity</b> app, open the person.</li>
+              <li>Tap <b>Add Credential → NFC</b>, then tap the fob to a reader.</li>
+              <li>To revoke, open the person and remove the fob credential.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Lost fob?</b> Revoke first, then issue a new one. The old fob is dead the moment you remove it.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="admin" data-cat="face" data-kw="face facial enrollment touch pass biometric unlock register photo recognition computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Set up face / Touch Pass unlock</div><div class="cmeta">Credentials · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Admin (Computer)</button><button class="pt" onclick="plat(this,'phone')">📱 User (Phone)</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>In <b>UniFi Access</b> (web), confirm the door's Reader Pro has <b>Face / Touch Pass</b> enabled.</li>
+              <li>Make sure the person is in a <b>group</b> that's allowed at that door.</li>
+              <li>That's it on your end — the person enrolls their own face from their phone (next tab).</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>The person opens the <b>UniFi Identity</b> app on their own phone.</li>
+              <li>Under <b>Credentials</b>, they enroll their face — self-service, stays on their account.</li>
+              <li>At a Reader Pro door, they're recognized hands-free and the door unlocks.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Privacy:</b> Enrollment is opt-in and self-service — you don't collect or store anyone's photos by hand.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="admin" data-cat="schedule" data-kw="schedule door hours school lock unlock times open close automatic rule pin computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Set door schedules (e.g. school hours)</div><div class="cmeta">Access · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Access → Settings → Schedules</b>.</li>
+              <li>Create a schedule (e.g. "Pre-school 7:30am–6pm") and pick the days.</li>
+              <li>Apply it to a door — stay unlocked, require a PIN, or lock per the schedule.</li>
+              <li>Outside those hours the door defaults back to locked / credential-only.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Access</b> app → <b>Settings → Schedules</b>.</li>
+              <li>Add a schedule with times and days.</li>
+              <li>Assign it to the door.</li>
+            </ol>
+            <div class="tip"><b>Heads-up:</b> Building schedules is easier on the computer — the phone is best for quick edits.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-role="admin" data-cat="reports" data-kw="report access log who entered when activity audit history attendance entry export computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Run an access activity report</div><div class="cmeta">Access · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Access → System Log</b> (Activity).</li>
+              <li>Each line reads in plain English: <i>"Jane Cohen entered Door 3 with PIN"</i> with the exact date &amp; time.</li>
+              <li>Filter on the left by <b>Type</b> (Unlocks, Access Denial), <b>Location</b> (door), <b>People</b>, or date range — e.g. "who entered the school wing Tuesday."</li>
+              <li>Click <b>▶</b> on any line to watch the camera clip of that entry.</li>
+              <li><b>Export as CSV</b> for your records (attendance, incidents, office reports).</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Access</b> app → <b>Activity / Logs</b>.</li>
+              <li>Filter and scroll the recent entries; tap one to see details and footage.</li>
+              <li>For a full filtered export (CSV), use the computer.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== SCHOOL ACCESS ===== -->
+    <div class="secttl sec">School Access</div>
+    <div class="grid">
+
+      <div class="card" data-role="admin frontdesk" data-cat="pin" data-kw="pin code parent school add give keypad door 4 to 8 digits credential generate enter computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Give a parent a PIN code</div><div class="cmeta">School Access · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Access → People</b>. Open the parent — or <b>Create New</b> and put them in the <b>School Parents</b> group.</li>
+              <li>On the person, open the <b>⚙ Settings</b> tab → <b>Credentials</b>.</li>
+              <li>Next to <b>PIN</b>, click <b>＋</b>.</li>
+              <li>Type a <b>4–8 digit code</b>, or click <b>Generate Random PIN</b>.</li>
+              <li>Click <b>Add</b> — it works immediately on the doors their group allows.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Access</b> app → <b>Users</b> → tap the parent (or <b>＋</b> to add them).</li>
+              <li><b>Credentials → PIN</b> → enter or generate the code → <b>Save</b>.</li>
+            </ol>
+            <div class="tip"><b>Tip:</b> Give each parent their <i>own</i> unique PIN — that's what makes the entry log show real names, not just "someone."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-role="admin" data-cat="pin" data-kw="remove delete change revoke parent pin code disable cut access family left school credential computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Remove or change a parent's PIN</div><div class="cmeta">School Access · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Access → People</b> → the parent → <b>⚙ Settings → Credentials</b>.</li>
+              <li>Find their <b>PIN</b> and <b>remove/delete</b> it — access by PIN stops instantly.</li>
+              <li>To <b>change</b> a PIN, remove the old one and add a new one.</li>
+              <li>To cut <i>all</i> access (a family leaves), <b>deactivate</b> them — turn off their <b>Access</b> assignment or remove them from the <b>School Parents</b> group. <i>Deactivate rather than delete, so their entry history stays on file.</i></li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li><b>Users</b> → tap the parent → <b>Credentials</b> → remove the PIN.</li>
+              <li>Bigger changes (groups, full access) are easier on the computer.</li>
+            </ol>
+            <div class="tip"><b>Why it's better than a key:</b> removal is instant — no re-keying a lock or collecting keys back.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" data-role="admin frontdesk" data-cat="pin" data-kw="check when parent entered school how often activity history visits attendance timeline frequency snapshot computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Admin</span>
+          <div class="htxt"><div class="ctt">Check when a parent entered (&amp; how often)</div><div class="cmeta">School Access · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Access → People</b> → the parent → the <b>📊 Activity</b> tab.</li>
+              <li>See a <b>frequency chart</b> (1D / 1W / 1M / 3M) — how often they come and at what times.</li>
+              <li>Below it, every entry is listed with the <b>door, time, and a camera snapshot</b> of them at the door.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li><b>Users</b> → tap the parent → <b>Activity</b>.</li>
+              <li>Scroll their recent entries; tap one to see the snapshot.</li>
+            </ol>
+            <div class="tip"><b>For everyone at once:</b> use <i>"Run an access activity report"</i> to see all school-door entries and export them.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== SYSTEM & SAFETY ===== -->
+    <div class="secttl sec">System &amp; Safety</div>
+    <div class="grid">
+
+      <div class="card" data-role="frontdesk admin" data-cat="emergency" data-kw="emergency lockdown lock all doors panic secure threat shelter active computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag" style="background:#fdeee7;color:var(--warn)">Emergency</span>
+          <div class="htxt"><div class="ctt">Lock down all doors instantly</div><div class="cmeta">Access · computer + phone · know it cold</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="tip" style="background:#fff4ef;border-color:var(--warn);color:#7a4a36"><b style="color:var(--warn)">Important:</b> Practice this once so it's muscle memory. Atlas walks your team through it during training.</div>
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open <b>UniFi Access</b> on the reception display.</li>
+              <li>Tap the <b>Lockdown</b> button — every controlled door locks at once.</li>
+              <li>Credentials are ignored during lockdown except designated emergency overrides.</li>
+              <li>To end it, tap <b>Release Lockdown</b> — doors return to normal schedules.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Access</b> app.</li>
+              <li>Tap <b>Lockdown</b> at the top of the doors screen and confirm.</li>
+              <li>All doors lock instantly — works from anywhere you have signal.</li>
+              <li>Tap <b>Release Lockdown</b> to end it.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Set up by Atlas:</b> We configure exactly which doors and overrides are included so the right people can still get out and first responders can get in.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="it admin" data-cat="health" data-kw="health status check system online offline device down green red monitor computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">IT</span>
+          <div class="htxt"><div class="ctt">Check system health at a glance</div><div class="cmeta">System · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Open the <b>UniFi</b> dashboard in a browser — everything healthy shows green.</li>
+              <li>An offline device turns red/grey and names itself (e.g. "South Lot camera").</li>
+              <li>Note the device name if you spot something.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi</b> app and view the device list.</li>
+              <li>Red/grey = offline; tap it for detail.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>On your plan:</b> With the Operations Partner tier, Atlas usually sees and addresses issues before you do.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="it" data-cat="reboot" data-kw="reboot restart device camera reader frozen not working power cycle fix computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">IT</span>
+          <div class="htxt"><div class="ctt">Safely reboot a single device</div><div class="cmeta">System · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>Find the device in the <b>UniFi</b> dashboard and open it.</li>
+              <li>Choose <b>Restart</b> — this reboots just that one camera or reader.</li>
+              <li>Give it 1–2 minutes to come back green.</li>
+              <li>Still down? Contact Atlas — don't pull power at the rack.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi</b> app and tap the device.</li>
+              <li>Go to <b>Settings → Restart</b>.</li>
+              <li>Wait for it to come back online.</li>
+            </ol>
+          </div>
+          <div class="tip"><b>Please don't:</b> Reboot the NVR or switches yourself — call Atlas first so footage and doors stay protected.</div>
+        </div>
+      </div>
+
+      <div class="card" data-role="frontdesk admin it" data-cat="visitor" data-kw="visitor pass guest qr apple wallet temporary event one time access invite computer phone">
+        <div class="head" onclick="toggleCard(this)">
+          <span class="tag">Front Desk</span>
+          <div class="htxt"><div class="ctt">Send a guest a temporary pass (QR / Wallet)</div><div class="cmeta">Access · computer + phone</div></div>
+          <span class="plus">+</span>
+        </div>
+        <div class="body">
+          <div class="ptabs"><button class="pt active" onclick="plat(this,'comp')">💻 Computer</button><button class="pt" onclick="plat(this,'phone')">📱 Phone app</button></div>
+          <div class="pane comp show">
+            <ol class="steps">
+              <li>In <b>UniFi Access</b>, choose <b>Visitor → New Visitor</b>.</li>
+              <li>Enter their name and the time window (e.g. just tonight's event).</li>
+              <li>Pick which doors they may use and send a <b>QR / Apple Wallet</b> pass by text or email.</li>
+              <li>The pass expires automatically — nothing to revoke.</li>
+            </ol>
+          </div>
+          <div class="pane phone">
+            <ol class="steps">
+              <li>Open the <b>UniFi Access</b> app → <b>Visitors → Add</b>.</li>
+              <li>Set the name, time window, and allowed doors.</li>
+              <li>Share the pass link via text or email — it auto-expires.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="twocol">
+    <div class="panel">
+      <h3>📌 Quick Reference</h3>
+      <ul class="qr-list">
+        <li><span class="k">Cameras</span><span class="v">33 (17 exterior · 16 interior)</span></li>
+        <li><span class="k">Access doors</span><span class="v">11 (8 readers · 3 intercoms)</span></li>
+        <li><span class="k">School-wing entry</span><span class="v">PIN code</span></li>
+        <li><span class="k">Footage retention</span><span class="v">~75 days high-quality</span></li>
+        <li><span class="k">Unlock methods</span><span class="v">App · Wallet · Fob · PIN · Face</span></li>
+        <li><span class="k">Apps you'll use</span><span class="v">UniFi Protect · Access · Identity</span></li>
+      </ul>
+      <div class="qrbox">
+        <div class="sq"></div>
+        <div><b>Post this at the front desk.</b><br>A QR sticker here jumps staff straight to the right guide — even the new volunteer on a Saturday.</div>
+      </div>
+    </div>
+
+    <div class="panel support">
+      <span class="badge">Operations Partner</span>
+      <h3>🤝 Atlas Support</h3>
+      <div class="row"><span style="font-size:18px">📞</span><div><b>Need a hand?</b>We're your single point of contact — cameras, doors, footage, all of it.</div></div>
+      <div class="row"><span style="font-size:18px">🔄</span><div><b>This site stays current.</b>When we fine-tune a rule or UniFi updates the app, we update these guides for you.</div></div>
+      <div class="row"><span style="font-size:18px">🎓</span><div><b>Hands-on training included.</b>Every install comes with live staff training and 30 days of premium fine-tuning support.</div></div>
+      <div class="row"><span style="font-size:18px">✉️</span><div><b>Contact</b>support@atlasvisionsystems.com · (placeholder)</div></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  B'nai Jehudah Security System · Help Center &nbsp;|&nbsp; Built &amp; maintained by Atlas Vision Systems, a division of NAC Investments LLC<br>
+  Prototype for review — content and branding are samples.
+</footer>
+
+<script>
+  let role='all';
+  function setRole(el){
+    document.querySelectorAll('.role').forEach(r=>r.classList.remove('active'));
+    el.classList.add('active');
+    role=el.dataset.role;
+    document.getElementById('q').value='';
+    filter();
+  }
+  function toggleCard(head){ head.parentElement.classList.toggle('open'); }
+  function plat(btn,which){
+    event.stopPropagation();
+    const card=btn.closest('.card');
+    card.querySelectorAll('.pt').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    card.querySelectorAll('.pane').forEach(p=>p.classList.remove('show'));
+    card.querySelector('.pane.'+which).classList.add('show');
+  }
+  function toggleCardFromBanner(){
+    setRole(document.querySelector('[data-role="all"]'));
+    const c=[...document.querySelectorAll('.card')].find(c=>c.dataset.cat==='emergency');
+    if(c){c.classList.add('open');c.scrollIntoView({behavior:'smooth',block:'center'});}
+  }
+  function filter(){
+    const term=document.getElementById('q').value.trim().toLowerCase();
+    let shown=0;
+    document.querySelectorAll('.card').forEach(c=>{
+      const roleOk = role==='all' || (c.dataset.role||'').includes(role);
+      const text=((c.dataset.kw||'')+' '+c.querySelector('.ctt').textContent).toLowerCase();
+      const termOk = !term || text.includes(term);
+      const show = roleOk && termOk;
+      c.style.display = show?'':'none';
+      if(show) shown++;
+    });
+    document.querySelectorAll('.secttl.sec').forEach(s=>{
+      let n=s.nextElementSibling, any=false;
+      while(n && !n.classList.contains('secttl')){
+        if(n.classList.contains('grid')) any=[...n.children].some(c=>c.style.display!=='none');
+        n=n.nextElementSibling;
+      }
+      s.style.display=any?'':'none';
+    });
+    const emg=document.querySelector('.emg');
+    emg.style.display=(!term && (role==='all'||role==='frontdesk'||role==='admin'))?'':'none';
+    document.getElementById('empty').style.display=shown?'none':'block';
+  }
+</script>
+</body>
+</html>
