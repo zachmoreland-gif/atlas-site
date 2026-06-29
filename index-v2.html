@@ -76,9 +76,13 @@
   .ic{width:48px;height:48px;border-radius:12px;background:linear-gradient(150deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;margin-bottom:16px}
   .ic svg{width:25px;height:25px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .card h3{font-size:18px;font-weight:800;color:var(--navy)}
+  .card .prod{width:100%;height:160px;background:#f7f9fc;border-radius:11px;margin-bottom:15px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .card .prod img{max-width:100%;max-height:150px;object-fit:contain}
   .card .lede{color:var(--blue);font-weight:700;font-size:13.5px;margin:3px 0 9px}
   .card p{color:var(--muted);font-size:14.5px}
   .card .tag{display:inline-block;margin-top:14px;font-size:11.5px;font-weight:700;color:var(--navy2);background:var(--blue-soft);padding:4px 11px;border-radius:20px}
+
+  .showcase{display:block;width:100%;max-width:1000px;margin:0 auto;border-radius:16px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(21,55,94,.14)}
 
   /* WHO */
   .who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
@@ -185,7 +189,7 @@
     <div class="grid">
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="12" height="10" rx="2"/><path d="M15 10l5-3v10l-5-3z"/><circle cx="9" cy="12" r="2.2"/></svg></div>
+        <div class="prod"><img src="cam.png" alt="Security Cameras" loading="lazy"></div>
         <h3>Security Cameras</h3>
         <div class="lede">See everything. Find anything.</div>
         <p>AI cameras you can search by person, vehicle, even "white van." Roughly two-plus months of footage on site. Pull and share a clip for police or insurance in seconds.</p>
@@ -193,7 +197,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="3"/><rect x="9" y="6" width="6" height="4" rx="1"/><circle cx="12" cy="15.5" r="2"/></svg></div>
+        <div class="prod"><img src="doorbell.png" alt="Doorbells, Intercoms & Entry" loading="lazy"></div>
         <h3>Doorbells, Intercoms &amp; Entry</h3>
         <div class="lede">Buzz people in from anywhere.</div>
         <p>Video doorbells and intercoms that ring your phone and front desk — see who's there, talk, and unlock from the lobby or across town. And <b>no monthly fee</b> to use every feature.</p>
@@ -201,7 +205,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg></div>
+        <div class="prod"><img src="access.png" alt="Door & Gate Access" loading="lazy"></div>
         <h3>Door &amp; Gate Access</h3>
         <div class="lede">Keys are a liability.</div>
         <p>Unlock with a phone, fob, PIN, or face. Lock pool gates and entrances on a schedule. Give school-wing parents a PIN and see exactly who came and went — and when.</p>
@@ -209,7 +213,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l6 4V6l-6 4H4z"/><path d="M17.5 9.5a4 4 0 0 1 0 5"/></svg></div>
+        <div class="prod"><img src="speaker.png" alt="Loudspeaker & Live Talk-Down" loading="lazy"></div>
         <h3>Loudspeaker &amp; Live Talk-Down</h3>
         <div class="lede">Clear the area without leaving your desk.</div>
         <p>Auto-announce after-hours warnings at the pool, dumpster, or any trouble spot — tied to the cameras. Or grab the mic and talk to people live. A real deterrent, not just a recording.</p>
@@ -217,7 +221,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 3L6 13h5l-1 8 8-11h-5z"/></svg></div>
+        <div class="prod"><img src="ev.png" alt="EV Charging" loading="lazy"></div>
         <h3>EV Charging</h3>
         <div class="lede">Add an amenity that pays you back.</div>
         <p>Access-controlled Level 2 chargers that bill residents per charge — on the same credentials they already use for the doors. An amenity residents want and a new revenue line for the property.</p>
@@ -225,7 +229,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div>
+        <div class="prod"><img src="alarm.png" alt="Intrusion Alarm" loading="lazy"></div>
         <h3>Intrusion Alarm</h3>
         <div class="lede">One company for your whole security stack.</div>
         <p>Door/window, motion, and glass-break sensors with battery backup — replacing your old alarm vendor and putting alarms on the same dashboard as your cameras and doors.</p>
@@ -233,7 +237,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg></div>
+        <div class="prod"><img src="sensor.png" alt="Environmental Sensors" loading="lazy"></div>
         <h3>Environmental Sensors</h3>
         <div class="lede">Catch problems before they cost you.</div>
         <p>Vape detection for hallways and school areas. Water-leak sensors that head off five-figure damage. Temperature monitoring for server rooms, pool pump rooms, and vacant units.</p>
@@ -241,7 +245,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M4 8h16M9.5 8V5h5v3"/></svg></div>
+        <div class="prod"><img src="lpr-night.png" alt="Dumpster & Trash Monitoring" loading="lazy"></div>
         <h3>Dumpster &amp; Trash Monitoring</h3>
         <div class="lede">Stop paying for other people's trash.</div>
         <p>Cameras with license-plate capture plus a deterrent speaker, so illegal dumping gets caught, identified, and fined — instead of just cleaned up on your dime.</p>
@@ -249,7 +253,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L16 17l5 2v3a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 6.6 1.5 1.5 0 0 1 5 5z"/></svg></div>
+        <div class="prod"><img src="phone.png" alt="Business Phones" loading="lazy"></div>
         <h3>Business Phones</h3>
         <div class="lede">Cut your bill. Keep your number.</div>
         <p>UniFi phones from <b>$9.99/line</b>. One shared office number that rings everyone, a "press 1 for leasing" menu, voicemail, and a softphone so staff answer from their cell anywhere. No contracts.</p>
@@ -257,7 +261,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 11a12 12 0 0 1 16 0"/><path d="M7 14.5a7 7 0 0 1 10 0"/><circle cx="12" cy="18" r="1.3"/></svg></div>
+        <div class="prod"><img src="wifi.png" alt="Networking & WiFi" loading="lazy"></div>
         <h3>Networking &amp; WiFi</h3>
         <div class="lede">The backbone for all of it.</div>
         <p>Enterprise WiFi and switching that just works — for the office, common areas, and every device above — managed remotely by us so you never think about it.</p>
@@ -265,7 +269,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><circle cx="12" cy="6" r="2"/><path d="M7.5 11a7 7 0 0 1 9 0M5 8a11 11 0 0 1 14 0"/></svg></div>
+        <div class="prod"><img src="backup.png" alt="Internet Backup" loading="lazy"></div>
         <h3>Internet Backup</h3>
         <div class="lede">Stay online when the line drops.</div>
         <p>Automatic 5G failover keeps your cameras, doors, and alarms running when the primary internet goes down — so your security never goes dark.</p>
@@ -273,7 +277,7 @@
       </div>
 
       <div class="card">
-        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="6" height="11" rx="1"/><rect x="15" y="9" width="6" height="11" rx="1"/><path d="M9 13h6"/><path d="M5 9V6M19 9V6"/></svg></div>
+        <div class="prod"><img src="bridge.png" alt="Multi-Building Links" loading="lazy"></div>
         <h3>Multi-Building Links</h3>
         <div class="lede">Connect buildings without trenching.</div>
         <p>Wireless bridges link multiple buildings across a campus or complex at gigabit speed — no digging fiber — so the whole property runs as one system.</p>
@@ -281,6 +285,18 @@
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="soft">
+  <div class="wrap">
+    <div class="sec-head" style="max-width:720px;margin:0 auto 34px;text-align:center">
+      <span class="kicker">One connected system</span>
+      <h2>Every device, working together.</h2>
+      <p>Cameras, door access, WiFi, EV charging, phones, and sensors — all on one UniFi platform, managed from a single place.</p>
+    </div>
+    <img class="showcase" src="overview.png" alt="A connected property powered by UniFi" loading="lazy">
   </div>
 </section>
 
