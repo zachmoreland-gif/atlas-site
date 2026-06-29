@@ -30,12 +30,6 @@
   .btn:hover{background:var(--navy2)}
   .btn[disabled]{opacity:.6;cursor:default}
   .login-card .btn{margin-top:22px}
-  .orline{display:flex;align-items:center;text-align:center;color:#9aa6b3;font-size:11.5px;margin-top:16px}
-  .orline::before,.orline::after{content:"";flex:1;height:1px;background:var(--line)}
-  .orline span{padding:0 12px}
-  .gbtn{margin-top:14px;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#3c4043;border:1px solid var(--line);border-radius:9px;font-weight:600;font-size:14px;padding:12px;cursor:pointer;font-family:inherit}
-  .gbtn:hover{background:#f7f9fc}
-  .gbtn svg{width:18px;height:18px;flex-shrink:0}
   .forgot{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:16px;cursor:pointer}
   .pwtoggle{float:right;font-weight:700;color:var(--navy2);cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
   .powered{text-align:center;font-size:11px;color:#9aa6b3;margin-top:22px}
@@ -100,40 +94,6 @@
   .note{font-size:12.5px;color:var(--muted);margin-top:10px}
   .empty{color:var(--muted);font-size:13.5px;padding:6px 0}
   footer{text-align:center;color:var(--muted);font-size:12px;padding:24px}
-
-  /* ADMIN */
-  #adminBar{display:none;align-items:center;justify-content:space-between;gap:12px;background:#2a2208;color:#f0d488;padding:9px 22px;font-size:12.5px}
-  body.adminmode #adminBar{display:flex}
-  #adminBar .ab-back{color:#f0d488;cursor:pointer;border:1px solid #5a4a1e;border-radius:7px;padding:5px 11px;font-weight:700;white-space:nowrap}
-  body:not(.adminmode) #adminUploadWrap{display:none}
-  .admin-head{background:var(--navy);color:#fff;padding:15px 22px;display:flex;align-items:center;justify-content:space-between}
-  .admin-head .ah-brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:15px}
-  .admin-head .ah-brand img{width:32px;height:32px;border-radius:7px;background:#fff;object-fit:contain}
-  .admin-wrap{max-width:1000px;margin:0 auto;padding:30px 22px 60px}
-  .admin-wrap h2{font-size:23px;color:var(--navy)}
-  .admin-wrap .lead{color:var(--muted);font-size:14px;margin:4px 0 22px}
-  .client-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-  .client-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;cursor:pointer;transition:.15s}
-  .client-card:hover{box-shadow:0 12px 30px rgba(26,58,92,.12);transform:translateY(-2px);border-color:#cfd8e3}
-  .client-card .cc-init{width:42px;height:42px;border-radius:10px;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
-  .client-card h3{font-size:16px;color:var(--navy);margin:13px 0 3px}
-  .client-card p{font-size:12.5px;color:var(--muted)}
-  .client-card .cc-go{color:var(--gold);font-weight:700;font-size:12.5px;margin-top:12px}
-  .upbtn{background:var(--navy);color:#fff;border:none;border-radius:9px;font-weight:600;font-size:13px;padding:10px 16px;cursor:pointer}
-  .upbtn[disabled]{opacity:.6;cursor:default}
-
-  /* UPLOAD MODAL */
-  #uploadModal{position:fixed;inset:0;background:rgba(15,25,40,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100}
-  .um-card{background:#fff;border-radius:16px;padding:26px;width:100%;max-width:440px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
-  .um-card h3{font-size:18px;color:var(--navy)}
-  .um-sub{color:var(--muted);font-size:13px;margin:4px 0 14px}
-  .um-l{display:block;font-size:12.5px;font-weight:600;color:var(--navy);margin:14px 0 5px}
-  .um-opt{color:var(--muted);font-weight:400}
-  #uploadModal input[type=text]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit}
-  #uploadModal input:focus{outline:none;border-color:var(--navy2)}
-  .um-file{display:flex;align-items:center;gap:12px}
-  .um-fn{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .um-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 </style>
 </head>
 <body>
@@ -144,7 +104,7 @@
 <!-- ===== LOGIN ===== -->
 <div id="login" class="hidden">
   <form class="login-card" onsubmit="return doSignIn(event)">
-    <a href="https://atlasvisionsystems.com" title="Back to atlasvisionsystems.com"><img src="https://atlasvisionsystems.com/Logo.png" class="login-logo" alt="Atlas"></a>
+    <img src="https://atlasvisionsystems.com/Logo.png" class="login-logo" alt="Atlas">
     <h1>Client Portal</h1>
     <div class="sub">Sign in to your Atlas Vision Systems account</div>
     <label>Email</label>
@@ -152,38 +112,16 @@
     <label>Password <span id="pwToggle" class="pwtoggle" onclick="togglePw()">Show</span></label>
     <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
     <button class="btn" id="loginBtn" type="submit">Sign In</button>
-    <div class="orline"><span>or</span></div>
-    <button class="gbtn" type="button" onclick="doGoogle()">
-      <svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Sign in with Google
-    </button>
     <div class="err" id="loginErr"></div>
     <span class="forgot" onclick="doReset()">Forgot your password?</span>
     <div class="powered">Secured by Atlas Vision Systems</div>
   </form>
 </div>
 
-<!-- ===== ADMIN: client list ===== -->
-<div id="admin" class="hidden">
-  <div class="admin-head">
-    <div class="ah-brand"><img src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas — Admin Console</div>
-    <span class="signout" onclick="doSignOut()">Sign out</span>
-  </div>
-  <div class="admin-wrap">
-    <h2>Client Portals</h2>
-    <p class="lead">Every Atlas client. Open any one to view their portal exactly as they see it and manage their documents.</p>
-    <div class="client-grid" id="clientGrid"></div>
-  </div>
-</div>
-
 <!-- ===== APP ===== -->
 <div id="app" class="hidden">
-  <div id="adminBar">
-    <span><b>Admin view</b> — viewing <span id="adminClientName">—</span>'s portal as they see it.</span>
-    <span class="ab-back" onclick="backToAdmin()">← All clients</span>
-  </div>
   <div class="topbar">
-    <div class="tb-brand" style="cursor:pointer" onclick="show('home')" title="Dashboard home"><img id="brandLogo" src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
+    <div class="tb-brand"><img id="brandLogo" src="https://atlasvisionsystems.com/Logo.png" alt=""> Atlas Client Portal</div>
     <div class="tb-right">
       <div class="tb-client"><b id="tbName">—</b><br><span id="tbLoc">—</span></div>
       <div class="avatar" id="tbInitials">—</div>
@@ -277,9 +215,6 @@
       <span class="back" onclick="show('home')">← Back to dashboard</span>
       <h2>Documents &amp; Agreements</h2>
       <p class="lead">Your important paperwork, stored securely and always available.</p>
-      <div id="adminUploadWrap" style="margin-bottom:14px">
-        <button class="upbtn" onclick="openUploadModal()">＋ Upload a document</button>
-      </div>
       <div class="panel">
         <div id="docList"></div>
       </div>
@@ -325,36 +260,10 @@
   <footer>Atlas Vision Systems · Client Portal</footer>
 </div>
 
-<!-- ===== UPLOAD MODAL (admin) ===== -->
-<div id="uploadModal" class="hidden">
-  <div class="um-card">
-    <h3>Add a document</h3>
-    <p class="um-sub">Upload a file to <span id="umClient">this client</span>'s portal.</p>
-    <input id="umFile" type="file" style="display:none" onchange="umPickFile()">
-    <label class="um-l">File</label>
-    <div class="um-file">
-      <button type="button" class="ghost-btn" onclick="document.getElementById('umFile').click()">Choose file</button>
-      <span id="umFileName" class="um-fn">No file selected</span>
-    </div>
-    <label class="um-l">Title <span class="um-opt">(what the client sees)</span></label>
-    <input id="umTitle" type="text" placeholder="e.g. Premium Proposal">
-    <label class="um-l">Description / info <span class="um-opt">(optional)</span></label>
-    <input id="umMeta" type="text" placeholder="e.g. Camera &amp; access upgrade">
-    <label class="um-l">Date sent / received <span class="um-opt">(optional)</span></label>
-    <input id="umSent" type="text" placeholder="e.g. Jun 17, 2026">
-    <div class="err" id="umErr"></div>
-    <div class="um-actions">
-      <button type="button" class="ghost-btn" onclick="closeUploadModal()">Cancel</button>
-      <button type="button" class="gold-btn" id="umGo" onclick="doUpload()">Upload</button>
-    </div>
-  </div>
-</div>
-
 <!-- Firebase SDK (compat build — no bundler needed) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
 <script>
   /* ============================================================
@@ -371,4 +280,144 @@
     appId: "1:810718211378:web:6f47fa342d36c25b01bb2b"
   };
 
-  firebase.
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const $ = function(id){ return document.getElementById(id); };
+  function showScreen(which){
+    ['splash','login','app'].forEach(function(s){ $(s).classList.add('hidden'); });
+    $(which).classList.remove('hidden');
+  }
+
+  /* ---------- Auth state ---------- */
+  auth.onAuthStateChanged(function(user){
+    if(user){ loadClient(user); }
+    else { showScreen('login'); }
+  });
+
+  function doSignIn(e){
+    e.preventDefault();
+    const btn = $('loginBtn'); const err = $('loginErr');
+    err.classList.remove('show');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    auth.signInWithEmailAndPassword($('email').value.trim(), $('password').value)
+      .catch(function(ex){
+        err.textContent = friendlyError(ex.code);
+        err.classList.add('show');
+        btn.disabled = false; btn.textContent = 'Sign In';
+      });
+    return false;
+  }
+
+  function doSignOut(){ auth.signOut(); }
+
+  function doReset(){
+    const email = $('email').value.trim();
+    const err = $('loginErr');
+    if(!email){ err.textContent = 'Enter your email above first, then tap reset.'; err.classList.add('show'); return; }
+    auth.sendPasswordResetEmail(email)
+      .then(function(){ err.style.cssText='background:#eaf6ef;border-color:#c9e6d6;color:#1f8a5b'; err.textContent='Password reset email sent — check your inbox.'; err.classList.add('show'); })
+      .catch(function(ex){ err.textContent = friendlyError(ex.code); err.classList.add('show'); });
+  }
+
+  function friendlyError(code){
+    switch(code){
+      case 'auth/invalid-email': return 'That doesn’t look like a valid email.';
+      case 'auth/user-disabled': return 'This account has been disabled. Contact Atlas.';
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential': return 'Email or password is incorrect.';
+      case 'auth/too-many-requests': return 'Too many attempts. Try again in a few minutes.';
+      default: return 'Sign-in failed. Please try again.';
+    }
+  }
+
+  /* ---------- Load this client's data ---------- */
+  async function loadClient(user){
+    showScreen('splash');
+    try{
+      const userDoc = await db.collection('users').doc(user.uid).get();
+      if(!userDoc.exists){ throw new Error('no-user-mapping'); }
+      const clientId = userDoc.data().clientId;
+      const clientDoc = await db.collection('clients').doc(clientId).get();
+      if(!clientDoc.exists){ throw new Error('no-client'); }
+      render(clientDoc.data());
+      showScreen('app');
+      show('home');
+    }catch(ex){
+      // Signed in but not provisioned to a client yet.
+      auth.signOut();
+      const err = $('loginErr');
+      err.textContent = 'Your account isn’t linked to a property yet. Contact Atlas.';
+      err.classList.add('show');
+      showScreen('login');
+    }
+  }
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  function render(c){
+    // Branding / header
+    $('brandLogo').src = c.logoUrl || 'https://atlasvisionsystems.com/Logo.png';
+    $('tbName').textContent = c.name || '';
+    $('tbLoc').textContent = c.location || '';
+    $('tbInitials').textContent = c.initials || (c.name? c.name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() : '—');
+    $('welcomeName').textContent = 'Welcome back, ' + (c.shortName || c.name || '');
+    $('welcomeNote').textContent = c.welcomeNote || 'Your smart property technology, all in one place.';
+    $('healthLabel').textContent = c.healthLabel || 'All systems healthy';
+
+    // Guides
+    var g = (c.guideGroups||[]);
+    $('guidesList').innerHTML = g.length ? g.map(function(x){
+      return '<div class="row"><span>'+esc(x.label)+'</span><span class="meta">'+esc(x.count)+'</span></div>';
+    }).join('') : '<div class="empty">Your guides will appear here once your system is set up.</div>';
+    $('helpCenterLink').href = c.helpCenterUrl || 'https://bnai.atlasvisionsystems.com';
+
+    // Billing
+    var b = c.billing||{};
+    $('balance').textContent = b.balance || '$0.00';
+    $('nextPay').textContent = b.nextPayment || '—';
+    $('autopay').textContent = b.autopay || 'Off';
+    $('cardLabel').textContent = b.cardLabel || 'No card on file';
+    var inv = (b.invoices||[]);
+    $('invoiceList').innerHTML = inv.length ? inv.map(function(x){
+      var cls = (x.status||'').toLowerCase()==='paid' ? 'paid' : 'due';
+      return '<div class="row"><span>'+esc(x.label)+'</span><span><span class="pill '+cls+'">'+esc(x.status)+'</span></span></div>';
+    }).join('') : '<div class="empty">No invoices yet.</div>';
+
+    // Documents (download wired in the Drive step — disabled for now)
+    var docs = (c.documents||[]);
+    $('docList').innerHTML = docs.length ? docs.map(function(x){
+      return '<div class="doc"><div class="fi">'+esc(x.icon||'📄')+'</div><div><b>'+esc(x.title)+'</b><div class="meta">'+esc(x.meta||'')+'</div></div>'+
+             '<span class="dl off" title="Secure downloads activate once your documents are connected">Download</span></div>';
+    }).join('') : '<div class="empty">Your documents will appear here.</div>';
+
+    // System
+    var stats = (c.systemStats||[]);
+    $('systemStats').innerHTML = stats.length ? stats.map(function(x){
+      return '<div class="stat"><div class="n">'+esc(x.n)+'</div><div class="l">'+esc(x.l)+'</div></div>';
+    }).join('') : '<div class="empty">System details will appear here after install.</div>';
+    var eq = (c.equipment||[]);
+    $('equipList').innerHTML = eq.length ? eq.map(function(x){
+      return '<div class="row"><span>'+esc(x.name)+'</span><span class="meta">'+esc(x.tag||'')+'</span></div>';
+    }).join('') : '<div class="empty">No equipment on file yet.</div>';
+
+    // Support
+    $('supportTier').textContent = 'Your plan: ' + (c.supportTier || '—');
+    var sr = (c.supportRows||[]);
+    $('supportRows').innerHTML = sr.length ? sr.map(function(x){
+      return '<div class="row"><span>'+esc(x.text)+'</span><span class="meta">'+esc(x.tag||'Active')+'</span></div>';
+    }).join('') : '<div class="empty">Support details will appear here.</div>';
+    $('supportPhone').textContent = 'Call Atlas — ' + (c.supportPhone || '314-313-0403');
+
+    // Activity
+    var act = (c.activity||[]);
+    $('activityList').innerHTML = act.length ? act.map(function(x){
+      return '<div class="row"><span>'+esc(x.text)+'</span><span class="meta">'+esc(x.when||'')+'</span></div>';
+    }).join('') : '<div class="empty">No recent activity.</div>';
+  }
+
+  /* ---------- Section navigation ---------- */
+  function show(id){
+    ['home','guides','b
