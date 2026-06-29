@@ -4,146 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atlas Vision Systems — Smart Property Security</title>
-<meta name="description" content="Cameras, door &amp; gate access, EV charging, alarms, sensors, and low-cost phones — one system, one app, no monthly license fees. Built for multifamily and commercial properties.">
+<meta name="description" content="Cameras, door &amp; gate access, EV charging, alarms, sensors, and low-cost phones — one vendor, one platform, no surprise fees. Built on UniFi for multifamily, commercial, and homes.">
+<link rel="icon" href="atlas-mark.png">
 <style>
   :root{
-    --navy:#1A3A5C; --navy2:#23507f; --gold:#C8A84B; --bg:#0e1b2a;
-    --ink:#1f2a37; --muted:#5b6b7d; --line:#e2e8f0; --card:#ffffff;
-    --soft:#f4f6f9;
+    --navy:#15375e; --navy2:#1d4e85; --blue:#1f6fd1; --btn:#1659a8; --blue-soft:#e8eff8;
+    --ink:#1b2530; --muted:#5d6b7a; --line:#dde5ef; --soft:#e6ecf4; --card:#fff;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;background:#fff}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;background:#eef2f7}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
-  .btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;padding:13px 22px;border-radius:9px;font-size:15px;transition:.15s;border:2px solid var(--gold)}
-  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(200,168,75,.35)}
-  .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
-  .btn.ghost:hover{border-color:#fff;box-shadow:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  .btn{display:inline-block;background:var(--btn);color:#fff;font-weight:800;padding:13px 24px;border-radius:8px;font-size:15px;letter-spacing:.2px;transition:.15s;border:2px solid var(--btn)}
+  .btn:hover{background:var(--navy);border-color:var(--navy);transform:translateY(-1px);box-shadow:0 10px 24px rgba(21,55,94,.28)}
+  .btn.outline{background:transparent;color:var(--navy);border-color:var(--line)}
+  .btn.outline:hover{background:var(--soft);box-shadow:none;border-color:#d4dce6;transform:none}
 
-  /* NAV */
-  header{position:sticky;top:0;z-index:50;background:rgba(14,27,42,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;max-width:1120px;margin:0 auto}
-  .brand{display:flex;align-items:center;gap:11px;color:#fff}
-  .logo{width:38px;height:38px;border:2px solid var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--gold);font-size:19px}
-  .brand .b1{font-weight:800;font-size:15px;letter-spacing:.3px;line-height:1.1}
-  .brand .b2{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);opacity:.9}
-  .logobox{background:#fff;border-radius:9px;padding:7px 12px;display:inline-flex;align-items:center}
-  .logobox img{height:30px;display:block}
-  .nav-links{display:flex;gap:24px;align-items:center}
-  .nav-links a{color:#cdd8e4;font-size:14px;font-weight:600}
-  .nav-links a:hover{color:#fff}
-  .nav .btn{padding:9px 16px;font-size:13.5px}
-  .nav-links a.btn,.nav-links a.btn:hover{color:var(--navy)}
-  @media(max-width:820px){.nav-links a:not(.btn){display:none}}
+  /* NAV (light, UniFi-style) */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:11px 24px;max-width:1160px;margin:0 auto}
+  .nav img.logo{height:38px;display:block}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{color:#33414f;font-size:14.5px;font-weight:600}
+  .nav-links a:hover{color:var(--navy)}
+  .nav .btn{padding:9px 18px;font-size:14px}
+  .nav-links a.btn,.nav-links a.btn:hover{color:#fff}
+  @media(max-width:860px){.nav-links a:not(.btn){display:none}}
 
   /* HERO */
-  .hero{background:linear-gradient(160deg,#0e1b2a 0%,var(--navy) 60%,var(--navy2) 100%);color:#fff;position:relative;overflow:hidden}
-  .hero::after{content:"";position:absolute;right:-120px;top:-120px;width:480px;height:480px;border:2px solid rgba(200,168,75,.18);border-radius:50%}
-  .hero::before{content:"";position:absolute;right:40px;bottom:-160px;width:360px;height:360px;border:2px solid rgba(255,255,255,.06);border-radius:50%}
-  .hero-inner{padding:84px 0 92px;position:relative;z-index:2;max-width:760px}
-  .eyebrow{display:inline-block;color:var(--gold);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:12.5px;margin-bottom:16px}
-  .hero h1{font-size:clamp(30px,5vw,50px);line-height:1.08;font-weight:800;letter-spacing:-.5px}
-  .hero h1 .hl{color:var(--gold)}
-  .hero p{margin:20px 0 18px;font-size:18px;color:#d3deea;max-width:620px}
-  .hero .note{display:inline-block;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-left:3px solid var(--gold);border-radius:9px;padding:11px 17px;font-size:14.5px;color:#e7eef6;font-weight:600;margin:0 0 30px}
-  .hero .note b{color:var(--gold)}
+  .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#f2f6fb 0%,#e2eaf4 100%)}
+  .hero .wrap{position:relative;z-index:2}
+  .hero-inner{padding:96px 0 90px;max-width:780px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);color:var(--navy2);font-weight:700;font-size:13px;padding:7px 14px;border-radius:30px;margin-bottom:22px}
+  .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--blue)}
+  .hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.05;font-weight:800;letter-spacing:-1px;color:var(--navy)}
+  .hero h1 .hl{color:var(--blue)}
+  .hero p{margin:22px 0 20px;font-size:19px;color:#46586a;max-width:640px}
+  .hero .note{display:inline-block;background:#fff;border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:9px;padding:11px 17px;font-size:14.5px;color:var(--navy);font-weight:600;margin:0 0 30px;max-width:660px}
+  .hero .note b{color:var(--blue)}
   .hero .cta-row{display:flex;gap:13px;flex-wrap:wrap}
-  .trust{margin-top:34px;display:flex;gap:26px;flex-wrap:wrap;color:#9fb1c4;font-size:13px;font-weight:600}
-  .trust b{color:#fff}
+  .hero .mark-bg{position:absolute;right:-90px;top:40px;width:520px;opacity:.05;z-index:1;pointer-events:none}
+  @media(max-width:900px){.hero .mark-bg{display:none}}
 
-  /* SECTION SHELL */
-  section{padding:74px 0}
-  .sec-head{max-width:680px;margin-bottom:40px}
-  .kicker{color:var(--navy2);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;font-size:12.5px}
-  .sec-head h2{font-size:clamp(25px,3.4vw,36px);font-weight:800;letter-spacing:-.4px;margin-top:8px;line-height:1.12}
-  .sec-head p{color:var(--muted);font-size:16.5px;margin-top:12px}
+  /* TRUST BAR */
+  .trustbar{background:var(--navy);color:#cdd9e6}
+  .trustbar .wrap{display:flex;align-items:center;justify-content:center;gap:14px 30px;flex-wrap:wrap;padding:18px 24px;font-size:13.5px;font-weight:600}
+  .trustbar b{color:#fff}
+  .badges{display:flex;gap:9px;flex-wrap:wrap}
+  .ubadge{border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:4px 11px;font-size:12.5px;color:#fff;font-weight:700;letter-spacing:.2px}
+  .ubadge span{color:var(--blue);font-weight:800}
 
-  /* SOUND FAMILIAR */
-  .familiar{background:var(--soft)}
-  .hooks{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
-  .hook{background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:20px 22px}
-  .hook .q{font-weight:800;font-size:16px;color:var(--navy)}
-  .hook .a{color:var(--muted);font-size:14.5px;margin-top:7px}
+  /* SECTIONS */
+  section{padding:80px 0}
+  .sec-head{max-width:700px;margin-bottom:44px}
+  .kicker{color:var(--blue);font-weight:800;letter-spacing:1.6px;text-transform:uppercase;font-size:12.5px}
+  .sec-head h2{font-size:clamp(26px,3.6vw,40px);font-weight:800;letter-spacing:-.6px;margin-top:10px;line-height:1.1;color:var(--navy)}
+  .sec-head p{color:var(--muted);font-size:17px;margin-top:13px}
+
+  /* FAMILIAR / HOOKS */
+  .soft{background:var(--soft)}
+  .hooks{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:16px}
+  .hook{background:linear-gradient(155deg,var(--navy),#0f2a47);border:1px solid #0f2a47;border-left:3px solid var(--blue);border-radius:12px;padding:22px 22px;box-shadow:0 8px 22px rgba(21,55,94,.14)}
+  .hook .q{font-weight:800;font-size:16px;color:#fff}
+  .hook .a{color:#c2d0e1;font-size:14.5px;margin-top:7px}
 
   /* SOLUTIONS */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;transition:.16s}
-  .card:hover{box-shadow:0 14px 34px rgba(26,58,92,.12);transform:translateY(-2px);border-color:#d4deea}
-  .ic{width:46px;height:46px;border-radius:11px;background:linear-gradient(150deg,var(--navy),var(--navy2));display:flex;align-items:center;justify-content:center;font-size:23px;margin-bottom:15px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;transition:.16s}
+  .card:hover{box-shadow:0 16px 38px rgba(21,55,94,.10);transform:translateY(-3px);border-color:#d9e2ec}
+  .ic{width:48px;height:48px;border-radius:12px;background:linear-gradient(150deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .ic svg{width:25px;height:25px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .card h3{font-size:18px;font-weight:800;color:var(--navy)}
-  .card .lede{color:var(--gold);font-weight:700;font-size:13.5px;margin:3px 0 9px;letter-spacing:.2px}
+  .card .prod{width:100%;height:160px;background:#f7f9fc;border-radius:11px;margin-bottom:15px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .card .prod img{max-width:100%;max-height:150px;object-fit:contain}
+  .card .lede{color:var(--blue);font-weight:700;font-size:13.5px;margin:3px 0 9px}
   .card p{color:var(--muted);font-size:14.5px}
-  .card .tag{display:inline-block;margin-top:13px;font-size:11.5px;font-weight:700;color:var(--navy2);background:#eef3f8;padding:4px 10px;border-radius:20px}
+  .card .tag{display:inline-block;margin-top:14px;font-size:11.5px;font-weight:700;color:var(--navy2);background:var(--blue-soft);padding:4px 11px;border-radius:20px}
+
+  .showcase{display:block;width:100%;max-width:1000px;margin:0 auto;border-radius:16px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(21,55,94,.14)}
 
   /* WHO */
-  .who{background:var(--navy);color:#fff}
-  .who .sec-head h2{color:#fff}
-  .who .sec-head .kicker{color:var(--gold)}
   .who-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
-  @media(max-width:720px){.who-grid{grid-template-columns:1fr}}
-  .who-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:26px}
-  .who-card h3{color:var(--gold);font-size:20px;font-weight:800;margin-bottom:8px}
-  .who-card p{color:#cdd8e4;font-size:15px}
+  .who-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px}
+  .who-card .wt{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .who-card .wt .ic{width:40px;height:40px;border-radius:10px;margin:0}
+  .who-card .wt .ic svg{width:21px;height:21px}
+  .who-card h3{color:var(--navy);font-size:19px;font-weight:800}
+  .who-card p{color:var(--muted);font-size:15px}
 
   /* WHY */
-  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
-  .why-item{padding:22px;border:1px solid var(--line);border-radius:13px;background:#fff}
-  .why-item .n{font-size:22px}
-  .why-item h3{font-size:16.5px;font-weight:800;color:var(--navy);margin:9px 0 6px}
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .why-item{padding:24px;border:1px solid var(--line);border-radius:13px;background:#fff}
+  .why-item .ic{width:42px;height:42px;border-radius:11px;margin-bottom:12px}
+  .why-item .ic svg{width:22px;height:22px}
+  .why-item h3{font-size:16.5px;font-weight:800;color:var(--navy);margin-bottom:6px}
   .why-item p{color:var(--muted);font-size:14.5px}
 
-  /* CTA */
-  .cta{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;border-radius:20px;padding:54px 40px;text-align:center;position:relative;overflow:hidden}
-  .cta h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;letter-spacing:-.4px}
-  .cta p{color:#d3deea;font-size:17px;margin:14px auto 26px;max-width:560px}
-  .cta .btn{font-size:16px;padding:15px 30px}
+  .videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px 18px;max-width:1080px;margin:0 auto}
+  .vfig{margin:0}
+  .vid{position:relative;padding-top:56.25%;border-radius:13px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 34px rgba(21,55,94,.12);background:#000}
+  .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vfig figcaption{margin-top:10px;font-size:13.5px;font-weight:700;color:var(--navy);text-align:center}
 
-  footer{background:#0e1b2a;color:#9fb1c4;padding:40px 0 46px;font-size:13.5px}
-  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-  footer .brand .b1{color:#fff}
-  footer a{color:var(--gold)}
-  .fine{margin-top:18px;font-size:12px;color:#637689}
+  /* CTA */
+  .cta{background:linear-gradient(150deg,var(--navy),var(--navy2));color:#fff;border-radius:22px;padding:58px 40px;text-align:center;position:relative;overflow:hidden}
+  .cta::after{content:"";position:absolute;right:-80px;bottom:-110px;width:320px;height:320px;border:2px solid rgba(255,255,255,.08);border-radius:50%}
+  .cta h2{font-size:clamp(27px,3.8vw,40px);font-weight:800;letter-spacing:-.5px;position:relative;z-index:2}
+  .cta p{color:#cfddec;font-size:17.5px;margin:15px auto 28px;max-width:580px;position:relative;z-index:2}
+  .cta .btn{background:#fff;color:var(--navy);border-color:#fff;font-size:16px;padding:15px 32px;position:relative;z-index:2}
+  .cta .btn:hover{background:var(--blue-soft);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+
+  /* FOOTER */
+  footer{background:#fff;border-top:1px solid var(--line);padding:38px 0 44px;font-size:13.5px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;align-items:center}
+  footer img.logo{height:40px}
+  footer a{color:var(--blue);font-weight:600}
+  .fine{margin-top:18px;font-size:12px;color:#8895a3}
 </style>
 </head>
 <body>
 
 <header>
   <div class="nav">
-    <a class="brand" href="#top"><span class="logobox"><img src="atlas-logo.png" alt="Atlas Vision Systems"></span></a>
+    <a href="#top"><img class="logo" src="atlas-logo.png" alt="Atlas Vision Systems"></a>
     <nav class="nav-links">
       <a href="#solutions">Solutions</a>
       <a href="#who">Who we serve</a>
       <a href="#why">Why Atlas</a>
+      <a href="#pay">Pay</a>
+      <a href="/portal">Client Login</a>
       <a class="btn" href="#contact">Get a walkthrough</a>
     </nav>
   </div>
 </header>
 
 <a id="top"></a>
-<section class="hero" style="padding:0">
+<section class="hero">
+  <img class="mark-bg" src="atlas-mark.png" alt="">
   <div class="wrap">
     <div class="hero-inner">
-      <span class="eyebrow">Cameras · Doorbells · Access · WiFi · EV · Alarms · Phones</span>
-      <h1>One system for your whole property. <span class="hl">No monthly license fees.</span></h1>
-      <p>Atlas Vision Systems designs, installs, and manages smart security and technology for multifamily, commercial, and homes — cameras, video doorbells, door &amp; gate access, EV charging, alarms, sensors, secure WiFi, and low-cost phones, all on one platform.</p>
+      <span class="pill"><span class="dot"></span> Built on UniFi · No monthly fees · Your data, your control</span>
+      <h1>One vendor for your whole property. <span class="hl">One platform. No surprise fees.</span></h1>
+      <p>Atlas Vision Systems designs, installs, and manages smart security and technology for multifamily, commercial, and homes — cameras, video doorbells, door &amp; gate access, EV charging, alarms, sensors, secure WiFi, and low-cost phones, all on one platform you own.</p>
       <p class="note"><b>Every feature, from day one.</b> No subscriptions, no paywalls, no feature lock — the way it should be.</p>
       <div class="cta-row">
         <a class="btn" href="#contact">Get a free walkthrough</a>
-        <a class="btn ghost" href="#solutions">See what we do</a>
-      </div>
-      <div class="trust">
-        <span><b>One</b> vendor, one platform</span>
-        <span><b>Your data</b>, your control</span>
-        <span><b>You own</b> the hardware</span>
-        <span><b>Local</b> install &amp; support</span>
+        <a class="btn outline" href="#solutions">See what we do</a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- TRUST BAR -->
+<div class="trustbar">
+  <div class="wrap">
+    <span><b>Built on UniFi</b> — enterprise hardware, no monthly license fees</span>
+    <div class="badges">
+      <span class="ubadge"><span>UniFi</span> Protect</span>
+      <span class="ubadge"><span>UniFi</span> Access</span>
+      <span class="ubadge"><span>UniFi</span> Connect</span>
+      <span class="ubadge"><span>UniFi</span> Talk</span>
+      <span class="ubadge"><span>UniFi</span> Network</span>
+    </div>
+  </div>
+</div>
+
 <!-- SOUND FAMILIAR -->
-<section class="familiar">
+<section class="soft">
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">Sound familiar?</span>
@@ -169,23 +197,15 @@
     <div class="grid">
 
       <div class="card">
-        <div class="ic">🎥</div>
+        <div class="prod"><img src="cam.png" alt="Security Cameras" loading="lazy"></div>
         <h3>Security Cameras</h3>
         <div class="lede">See everything. Find anything.</div>
-        <p>AI cameras you can search by person, vehicle, even "white van." Roughly two-plus months of footage on site. Pull and share a clip for police or insurance in seconds.</p>
+        <p>AI that detects and tags people, vehicles, faces, pets, packages, and license plates — so you can search "white van" or a face and jump straight to the moment. Roughly two-plus months of footage on site; pull and share a clip for police or insurance in seconds.</p>
         <span class="tag">UniFi Protect</span>
       </div>
 
       <div class="card">
-        <div class="ic">🔑</div>
-        <h3>Door &amp; Gate Access</h3>
-        <div class="lede">Keys are a liability.</div>
-        <p>Unlock with a phone, fob, PIN, or face. Lock pool gates and entrances on a schedule. Give school-wing parents a PIN and see exactly who came and went — and when.</p>
-        <span class="tag">UniFi Access</span>
-      </div>
-
-      <div class="card">
-        <div class="ic">🛎️</div>
+        <div class="prod"><img src="intercom-new.png" alt="Doorbells, Intercoms & Entry" loading="lazy"></div>
         <h3>Doorbells, Intercoms &amp; Entry</h3>
         <div class="lede">Buzz people in from anywhere.</div>
         <p>Video doorbells and intercoms that ring your phone and front desk — see who's there, talk, and unlock from the lobby or across town. And <b>no monthly fee</b> to use every feature.</p>
@@ -193,7 +213,15 @@
       </div>
 
       <div class="card">
-        <div class="ic">📢</div>
+        <div class="prod"><img src="access.png" alt="Door & Gate Access" loading="lazy"></div>
+        <h3>Door &amp; Gate Access</h3>
+        <div class="lede">Keys are a liability.</div>
+        <p>Unlock with a phone, fob, PIN, or face. Lock pool gates and entrances on a schedule. Give school-wing parents a PIN and see exactly who came and went — and when.</p>
+        <span class="tag">UniFi Access</span>
+      </div>
+
+      <div class="card">
+        <div class="prod"><img src="speaker.png" alt="Loudspeaker & Live Talk-Down" loading="lazy"></div>
         <h3>Loudspeaker &amp; Live Talk-Down</h3>
         <div class="lede">Clear the area without leaving your desk.</div>
         <p>Auto-announce after-hours warnings at the pool, dumpster, or any trouble spot — tied to the cameras. Or grab the mic and talk to people live. A real deterrent, not just a recording.</p>
@@ -201,7 +229,7 @@
       </div>
 
       <div class="card">
-        <div class="ic">🔌</div>
+        <div class="prod"><img src="ev.png" alt="EV Charging" loading="lazy"></div>
         <h3>EV Charging</h3>
         <div class="lede">Add an amenity that pays you back.</div>
         <p>Access-controlled Level 2 chargers that bill residents per charge — on the same credentials they already use for the doors. An amenity residents want and a new revenue line for the property.</p>
@@ -209,7 +237,7 @@
       </div>
 
       <div class="card">
-        <div class="ic">🚨</div>
+        <div class="prod"><img src="alarm.png" alt="Intrusion Alarm" loading="lazy"></div>
         <h3>Intrusion Alarm</h3>
         <div class="lede">One company for your whole security stack.</div>
         <p>Door/window, motion, and glass-break sensors with battery backup — replacing your old alarm vendor and putting alarms on the same dashboard as your cameras and doors.</p>
@@ -217,7 +245,7 @@
       </div>
 
       <div class="card">
-        <div class="ic">🌫️</div>
+        <div class="prod"><img src="sensor.png" alt="Environmental Sensors" loading="lazy"></div>
         <h3>Environmental Sensors</h3>
         <div class="lede">Catch problems before they cost you.</div>
         <p>Vape detection for hallways and school areas. Water-leak sensors that head off five-figure damage. Temperature monitoring for server rooms, pool pump rooms, and vacant units.</p>
@@ -225,15 +253,15 @@
       </div>
 
       <div class="card">
-        <div class="ic">🗑️</div>
+        <div class="prod"><img src="dumpster.png" alt="Dumpster & Trash Monitoring" loading="lazy"></div>
         <h3>Dumpster &amp; Trash Monitoring</h3>
-        <div class="lede">Stop paying for other people's trash.</div>
-        <p>Cameras with license-plate capture plus a deterrent speaker, so illegal dumping gets caught, identified, and fined — instead of just cleaned up on your dime.</p>
-        <span class="tag">Camera + speaker</span>
+        <div class="lede">Catch the plate, not just the mess.</div>
+        <p>The same AI that tags people, vehicles, faces, and pets reads the license plate of anyone who pulls up to the enclosure — while a deterrent speaker warns them off. After-hours and non-resident dumping gets caught, identified, and fined instead of cleaned up on your dime.</p>
+        <span class="tag">Plate capture + speaker</span>
       </div>
 
       <div class="card">
-        <div class="ic">☎️</div>
+        <div class="prod"><img src="phone.png" alt="Business Phones" loading="lazy"></div>
         <h3>Business Phones</h3>
         <div class="lede">Cut your bill. Keep your number.</div>
         <p>UniFi phones from <b>$9.99/line</b>. One shared office number that rings everyone, a "press 1 for leasing" menu, voicemail, and a softphone so staff answer from their cell anywhere. No contracts.</p>
@@ -241,7 +269,7 @@
       </div>
 
       <div class="card">
-        <div class="ic">📶</div>
+        <div class="prod"><img src="wifi.png" alt="Networking & WiFi" loading="lazy"></div>
         <h3>Networking &amp; WiFi</h3>
         <div class="lede">The backbone for all of it.</div>
         <p>Enterprise WiFi and switching that just works — for the office, common areas, and every device above — managed remotely by us so you never think about it.</p>
@@ -249,7 +277,7 @@
       </div>
 
       <div class="card">
-        <div class="ic">🛰️</div>
+        <div class="prod"><img src="backup.png" alt="Internet Backup" loading="lazy"></div>
         <h3>Internet Backup</h3>
         <div class="lede">Stay online when the line drops.</div>
         <p>Automatic 5G failover keeps your cameras, doors, and alarms running when the primary internet goes down — so your security never goes dark.</p>
@@ -257,7 +285,7 @@
       </div>
 
       <div class="card">
-        <div class="ic">🏢</div>
+        <div class="prod"><img src="sector.png" alt="Multi-Building Links" loading="lazy"></div>
         <h3>Multi-Building Links</h3>
         <div class="lede">Connect buildings without trenching.</div>
         <p>Wireless bridges link multiple buildings across a campus or complex at gigabit speed — no digging fiber — so the whole property runs as one system.</p>
@@ -268,24 +296,36 @@
   </div>
 </section>
 
+<!-- SHOWCASE -->
+<section class="soft">
+  <div class="wrap">
+    <div class="sec-head" style="max-width:720px;margin:0 auto 34px;text-align:center">
+      <span class="kicker">One connected system</span>
+      <h2>Every device, working together.</h2>
+      <p>Cameras, door access, WiFi, EV charging, phones, and sensors — all on one UniFi platform, managed from a single place.</p>
+    </div>
+    <img class="showcase" src="overview.png" alt="A connected property powered by UniFi" loading="lazy">
+  </div>
+</section>
+
 <!-- WHO -->
-<section id="who" class="who">
+<section id="who" class="soft">
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">Who we serve</span>
-      <h2>Built for the properties we know best.</h2>
+      <h2>Built for the properties — and people — we know best.</h2>
     </div>
     <div class="who-grid">
       <div class="who-card">
-        <h3>Multifamily &amp; Condo</h3>
+        <div class="wt"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 21V8l7-4 7 4v13"/><path d="M9 21v-5h4v5"/><path d="M9 11h.01M14 11h.01"/></svg></div><h3>Multifamily &amp; Condo</h3></div>
         <p>Apartments, condos, and HOAs: secured entrances and pool gates, resident EV charging, package and dumpster monitoring, leak and vape detection, and amenity-area cameras — with resident-friendly access by phone or fob.</p>
       </div>
       <div class="who-card">
-        <h3>Commercial &amp; Office</h3>
+        <div class="wt"><div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M8 11h2M8 15h2M14 7h2M14 11h2M14 15h2"/></svg></div><h3>Commercial &amp; Office</h3></div>
         <p>Offices, retail, and mixed-use: building access, parking and perimeter cameras, intrusion alarm, low-cost phone systems, and reliable managed networking — all on one platform you actually own.</p>
       </div>
       <div class="who-card">
-        <h3>Homeowners &amp; Families</h3>
+        <div class="wt"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg></div><h3>Homeowners &amp; Families</h3></div>
         <p>Your home, watched from your phone: a video doorbell with <b>no monthly fee to unlock features</b>, exterior and WiFi cameras, and enterprise WiFi that beats the box from your internet company — plus remote help keeping an eye on aging parents.</p>
       </div>
     </div>
@@ -293,7 +333,7 @@
 </section>
 
 <!-- HOME & FAMILY -->
-<section class="familiar">
+<section>
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">For your home &amp; family</span>
@@ -308,31 +348,89 @@
       <div class="hook"><div class="q">Worried about what you can't hear?</div><div class="a">Cameras and sensors that listen for glass breaking, smoke and CO alarms, and alert you the moment it happens.</div></div>
       <div class="hook"><div class="q">...and so much more.</div><div class="a">If it protects your home or your family, we can probably do it. Just ask.</div></div>
     </div>
+    <div style="max-width:640px;margin:32px auto 0">
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/HI_5MyA3dcA" title="UniFi for the home" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>One simple device for the whole home — see how it works</figcaption></figure>
+    </div>
   </div>
 </section>
 
 <!-- WHY -->
-<section id="why">
+<section id="why" class="soft">
   <div class="wrap">
     <div class="sec-head">
       <span class="kicker">Why Atlas</span>
       <h2>One vendor. One platform. No surprise fees.</h2>
     </div>
     <div class="why-grid">
-      <div class="why-item"><div class="n">🧩</div><h3>One platform, one login</h3><p>Cameras, doors, alarms, EV, phones — one vendor managing it all from a single web console, instead of a different company and bill for each.</p></div>
-      <div class="why-item"><div class="n">💸</div><h3>No monthly license fees</h3><p>You own the hardware and get <b>every feature from day one</b> — no per-camera or per-door subscriptions, no paywalls, no features held hostage.</p></div>
-      <div class="why-item"><div class="n">🛠️</div><h3>Local install &amp; real support</h3><p>We show up, install it right, train your staff, and stay on call when you need us.</p></div>
-      <div class="why-item"><div class="n">🏗️</div><h3>Enterprise-grade hardware</h3><p>Built on UniFi — the same gear trusted across thousands of properties, from a single building to global portfolios.</p></div>
-      <div class="why-item"><div class="n">🔒</div><h3>Your data, your control</h3><p>Footage lives on-site, on hardware you own — never mined, never sold, never sitting in a stranger's cloud. It's your property's data, and it stays that way.</p></div>
+      <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></div><h3>One platform, one login</h3><p>Cameras, doors, alarms, EV, phones — one vendor managing it all from a single web console, instead of a different company and bill for each.</p></div>
+      <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>No monthly license fees</h3><p>You own the hardware and get <b>every feature from day one</b> — no per-camera or per-door subscriptions, no paywalls, no features held hostage.</p></div>
+      <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 21l2-6 8-8 4 4-8 8z"/><path d="M14 6l3-3 4 4-3 3z"/></svg></div><h3>Local install &amp; real support</h3><p>We show up, install it right, train your staff, and stay on call when you need us.</p></div>
+      <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20V9l9-5 9 5v11"/><path d="M3 20h18"/><path d="M9 20v-6h6v6"/></svg></div><h3>Enterprise-grade hardware</h3><p>Built on UniFi — the same gear trusted across thousands of properties, from a single building to global portfolios.</p></div>
+      <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg></div><h3>Your data, your control</h3><p>Footage lives on-site, on hardware you own — never mined, never sold, never sitting in a stranger's cloud. It's your property's data, and it stays that way.</p></div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section id="contact" style="padding-top:20px">
+<!-- VIDEO -->
+<section class="soft">
+  <div class="wrap">
+    <div class="sec-head" style="max-width:720px;margin:0 auto 34px;text-align:center">
+      <span class="kicker">See it in action</span>
+      <h2>The hardware, up close.</h2>
+      <p>Short product walkthroughs straight from UniFi — the same gear Atlas installs and supports.</p>
+    </div>
+    <div class="videos">
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/-qS40ulnjps" title="UniFi Protect 7.1" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UniFi Protect 7.1 — cameras &amp; dashboard</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/IBzY06tH0sQ" title="Next-Gen PTZ Cameras" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Next-gen PTZ cameras</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/GqNZLj8cYmw" title="Next-Gen UniFi Doorbell and Access" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Next-gen doorbell &amp; access</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/1K3aXkK1ulU" title="UniFi Physical Security Expansion" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Physical security, expanded</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/T0S2ndgoVnQ" title="UniFi Talk" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UniFi Talk — business phones</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/HI_5MyA3dcA" title="UNVR Instant" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UNVR Instant — homes &amp; small business</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/5H7W4iM2AXM" title="UniFi Bridging" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Multi-building bridging</figcaption></figure>
+      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/vJ56stdsnUA" title="UniFi 5G Backup" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UniFi 5G internet backup</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
   <div class="wrap">
     <div class="cta">
       <h2>Let's walk your property.</h2>
       <p>Tell us the headaches — the pool gate, the dumpster, the phone bill, the blind spots — and we'll show you exactly what it takes to fix them. Free walkthrough, no pressure.</p>
       <p>Start with a single video doorbell or scale up to a full multi-building camera system — we size the package to your property and budget. It's more affordable than you think, and there are <b>no monthly subscriptions</b>.</p>
-      <a class="btn" href="mailto:support@atlasvisionsystems.com?subject=Property%20walkthrough%2
+      <a class="btn" href="mailto:support@atlasvisionsystems.com?subject=Property%20walkthrough%20request">Request a free walkthrough</a>
+      <p style="margin-top:20px;font-size:14.5px;color:#aebfd0">Or email us directly: <a href="mailto:support@atlasvisionsystems.com" style="color:#fff;font-weight:700">support@atlasvisionsystems.com</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- PAY -->
+<section id="pay" class="soft">
+  <div class="wrap">
+    <div class="sec-head" style="max-width:680px;margin:0 auto 30px;text-align:center">
+      <span class="kicker">Billing</span>
+      <h2>Make a payment.</h2>
+      <p>Pay an invoice balance or a deposit securely — card, Apple Pay, Google Pay, or bank transfer. Processed by Square; your card details never touch our site.</p>
+    </div>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a class="btn" href="https://square.link/u/bG2c9Crk" target="_blank" rel="noopener">Make a Payment</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="#top"><img class="logo" src="atlas-logo.png" alt="Atlas Vision Systems"></a>
+      <div style="text-align:right">
+        <a href="/portal">Client Login</a> &nbsp;·&nbsp; <a href="mailto:support@atlasvisionsystems.com">support@atlasvisionsystems.com</a><br>
+        <span style="color:#8895a3">Serving multifamily, commercial &amp; homes</span>
+      </div>
+    </div>
+    <div class="fine">© 2026 Atlas Vision Systems, a division of NAC Investments LLC. Built on UniFi. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
