@@ -101,6 +101,10 @@
   .why-item h3{font-size:16.5px;font-weight:800;color:var(--navy);margin-bottom:6px}
   .why-item p{color:var(--muted);font-size:14.5px}
 
+  .videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;max-width:900px;margin:0 auto}
+  .vid{position:relative;padding-top:56.25%;border-radius:13px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 34px rgba(21,55,94,.12);background:#000}
+  .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
   /* CTA */
   .cta{background:linear-gradient(150deg,var(--navy),var(--navy2));color:#fff;border-radius:22px;padding:58px 40px;text-align:center;position:relative;overflow:hidden}
   .cta::after{content:"";position:absolute;right:-80px;bottom:-110px;width:320px;height:320px;border:2px solid rgba(255,255,255,.08);border-radius:50%}
@@ -362,6 +366,20 @@
 </section>
 
 <!-- CTA -->
+<!-- VIDEO -->
+<section class="soft">
+  <div class="wrap">
+    <div class="sec-head" style="max-width:720px;margin:0 auto 34px;text-align:center">
+      <span class="kicker">See it in action</span>
+      <h2>The hardware, up close.</h2>
+      <p>Short product walkthroughs straight from UniFi — the same gear Atlas installs and supports.</p>
+    </div>
+    <div class="videos">
+      <div class="vid"><iframe src="https://www.youtube.com/embed/vJ56stdsnUA" title="Meet UniFi: UniFi 5G Backup" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
   <div class="wrap">
     <div class="cta">
