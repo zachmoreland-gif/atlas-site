@@ -408,11 +408,16 @@
       <h2>Let's walk your property.</h2>
       <p>Tell us the headaches — the pool gate, the dumpster, the phone bill, the blind spots — and we'll show you exactly what it takes to fix them. Free walkthrough, no pressure.</p>
       <p>Start with a single video doorbell or scale up to a full multi-building camera system — we size the package to your property and budget. It's more affordable than you think, and there are <b>no monthly subscriptions</b>.</p>
+      <div id="sent-msg" style="display:none;background:#123524;border:1px solid #2e7d52;color:#a6e9c5;border-radius:12px;padding:22px 26px;margin:18px 0;font-size:1.05rem;line-height:1.5">
+        <b style="font-size:1.15rem">✓ Request received!</b><br>
+        Thanks — your walkthrough request is in. We'll reach out within one business day to set a time.
+      </div>
       <form class="cta-form" action="https://formsubmit.co/support@atlasvisionsystems.com" method="POST">
         <input type="hidden" name="_subject" value="New walkthrough request — atlasvisionsystems.com">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_next" value="https://www.atlasvisionsystems.com/?sent=1">
+        <input type="hidden" name="_next" value="https://www.atlasvisionsystems.com/?sent=1#contact">
+        <input type="text" name="company" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
         <div class="two">
           <input type="text" name="name" placeholder="Your name" required>
           <input type="email" name="email" placeholder="Email" required>
@@ -442,5 +447,40 @@
   </div>
 </footer>
 
+<script>
+  // Show confirmation if redirected back from FormSubmit fallback (?sent=1)
+  if (new URLSearchParams(location.search).has('sent')) {
+    document.getElementById('sent-msg').style.display = 'block';
+    var f0 = document.querySelector('.cta-form');
+    if (f0) f0.style.display = 'none';
+    document.getElementById('contact').scrollIntoView();
+  }
+
+  // Primary path: submit to our own /api/contact (Resend).
+  // If it fails for any reason, fall back to native FormSubmit POST.
+  document.querySelector('.cta-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var form = this;
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    var data = Object.fromEntries(new FormData(form).entries());
+    try {
+      var r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!r.ok) throw new Error('api failed');
+      form.style.display = 'none';
+      var msg = document.getElementById('sent-msg');
+      msg.style.display = 'block';
+      msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      // Fallback: classic POST to FormSubmit (redirects to /?sent=1#contact)
+      form.submit();
+    }
+  });
+</script>
 </body>
 </html>
