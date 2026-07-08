@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atlas Vision Systems — Smart Property Technology</title>
-<meta name="description" content="Cameras, door &amp; gate access, EV charging, alarms, sensors, and low-cost phones — one vendor, one platform, no surprise fees. Built on UniFi for multifamily, commercial, and homes.">
+<meta name="description" content="Cameras, door &amp; gate access, EV charging, sensors, and low-cost phones — one vendor, one platform, no surprise fees. Built on UniFi for multifamily, commercial, and homes.">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -107,6 +107,10 @@
   .vfig{margin:0}
   .vid{position:relative;padding-top:56.25%;border-radius:13px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 34px rgba(21,55,94,.12);background:#000}
   .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .vid .lite{position:absolute;inset:0;width:100%;height:100%;border:0;padding:0;cursor:pointer;background:#000 center/cover no-repeat}
+  .vid .lite .ply{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:48px;background:rgba(20,20,20,.78);border-radius:14px;transition:.15s}
+  .vid .lite:hover .ply{background:#f00}
+  .vid .lite .ply::after{content:"";position:absolute;top:50%;left:54%;transform:translate(-50%,-50%);border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent #fff}
   .vfig figcaption{margin-top:10px;font-size:13.5px;font-weight:700;color:var(--navy);text-align:center}
 
   /* CTA */
@@ -245,15 +249,7 @@
         <span class="tag">UniFi Connect</span>
       </div>
 
-      <div class="card">
-        <div class="prod"><img src="alarm.png" alt="Intrusion Alarm" loading="lazy"></div>
-        <h3>Intrusion Alarm</h3>
-        <div class="lede">One company for your whole security stack.</div>
-        <p>Door/window, motion, and glass-break sensors with battery backup — replacing your old alarm vendor and putting alarms on the same dashboard as your cameras and doors.</p>
-        <span class="tag">UniFi Alarm</span>
-      </div>
-
-      <div class="card">
+<div class="card">
         <div class="prod"><img src="sensor.png" alt="Environmental Sensors" loading="lazy"></div>
         <h3>Environmental Sensors</h3>
         <div class="lede">Catch problems before they cost you.</div>
@@ -358,7 +354,7 @@
       <div class="hook"><div class="q">...and so much more.</div><div class="a">If it protects your home or your family, we can probably do it. Just ask.</div></div>
     </div>
     <div style="max-width:640px;margin:32px auto 0">
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/HI_5MyA3dcA" title="UniFi for the home" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>One simple device for the whole home — see how it works</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="HI_5MyA3dcA" aria-label="Play video: UniFi for the home" style="background-image:url(https://i.ytimg.com/vi/HI_5MyA3dcA/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>One simple device for the whole home — see how it works</figcaption></figure>
     </div>
   </div>
 </section>
@@ -390,14 +386,14 @@
       <p>Short product walkthroughs straight from UniFi — the same gear Atlas installs and supports.</p>
     </div>
     <div class="videos">
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/-qS40ulnjps" title="UniFi Protect 7.1" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UniFi Protect 7.1 — cameras &amp; dashboard</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/IBzY06tH0sQ" title="Next-Gen PTZ Cameras" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Next-gen PTZ cameras</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/GqNZLj8cYmw" title="Next-Gen UniFi Doorbell and Access" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Next-gen doorbell &amp; access</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/1K3aXkK1ulU" title="UniFi Physical Security Expansion" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Physical security, expanded</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/T0S2ndgoVnQ" title="UniFi Talk" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UniFi Talk — business phones</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/HI_5MyA3dcA" title="UNVR Instant" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UNVR Instant — homes &amp; small business</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/5H7W4iM2AXM" title="UniFi Bridging" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>Multi-building bridging</figcaption></figure>
-      <figure class="vfig"><div class="vid"><iframe src="https://www.youtube.com/embed/vJ56stdsnUA" title="UniFi 5G Backup" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div><figcaption>UniFi 5G internet backup</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="-qS40ulnjps" aria-label="Play video: UniFi Protect 7.1" style="background-image:url(https://i.ytimg.com/vi/-qS40ulnjps/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>UniFi Protect 7.1 — cameras &amp; dashboard</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="IBzY06tH0sQ" aria-label="Play video: Next-Gen PTZ Cameras" style="background-image:url(https://i.ytimg.com/vi/IBzY06tH0sQ/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>Next-gen PTZ cameras</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="GqNZLj8cYmw" aria-label="Play video: Next-Gen UniFi Doorbell and Access" style="background-image:url(https://i.ytimg.com/vi/GqNZLj8cYmw/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>Next-gen doorbell &amp; access</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="1K3aXkK1ulU" aria-label="Play video: UniFi Physical Security Expansion" style="background-image:url(https://i.ytimg.com/vi/1K3aXkK1ulU/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>Physical security, expanded</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="T0S2ndgoVnQ" aria-label="Play video: UniFi Talk" style="background-image:url(https://i.ytimg.com/vi/T0S2ndgoVnQ/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>UniFi Talk — business phones</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="HI_5MyA3dcA" aria-label="Play video: UNVR Instant" style="background-image:url(https://i.ytimg.com/vi/HI_5MyA3dcA/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>UNVR Instant — homes &amp; small business</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="5H7W4iM2AXM" aria-label="Play video: UniFi Bridging" style="background-image:url(https://i.ytimg.com/vi/5H7W4iM2AXM/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>Multi-building bridging</figcaption></figure>
+      <figure class="vfig"><div class="vid"><button class="lite" data-id="vJ56stdsnUA" aria-label="Play video: UniFi 5G Backup" style="background-image:url(https://i.ytimg.com/vi/vJ56stdsnUA/hqdefault.jpg)"><span class="ply"></span></button></div><figcaption>UniFi 5G internet backup</figcaption></figure>
     </div>
   </div>
 </section>
@@ -483,5 +479,6 @@
   });
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>document.querySelectorAll(".vid .lite").forEach(function(b){b.addEventListener("click",function(){var id=b.getAttribute("data-id");b.parentElement.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1" title="video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';});});</script>
 </body>
 </html>
