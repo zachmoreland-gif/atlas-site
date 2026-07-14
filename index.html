@@ -20,8 +20,8 @@
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
   .btn{display:inline-block;background:var(--btn);color:#fff;font-weight:800;padding:13px 24px;border-radius:8px;font-size:15px;letter-spacing:.2px;transition:.15s;border:2px solid var(--btn)}
   .btn:hover{background:var(--navy);border-color:var(--navy);transform:translateY(-1px);box-shadow:0 10px 24px rgba(21,55,94,.28)}
-  .btn.outline{background:transparent;color:var(--navy);border-color:var(--line)}
-  .btn.outline:hover{background:var(--soft);box-shadow:none;border-color:#d4dce6;transform:none}
+  .btn.outline{background:#fff;color:var(--navy);border-color:var(--btn)}
+  .btn.outline:hover{background:#eef3fb;box-shadow:none;border-color:var(--navy);transform:none}
 
   /* NAV (light, UniFi-style) */
   header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -38,7 +38,7 @@
   .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#f2f6fb 0%,#e2eaf4 100%)}
   .hero .wrap{position:relative;z-index:2}
   .hero-inner{padding:96px 0 90px;max-width:780px}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);color:var(--navy2);font-weight:700;font-size:13px;padding:7px 14px;border-radius:30px;margin-bottom:22px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);color:var(--navy2);font-weight:700;font-size:13px;padding:7px 14px;border-radius:30px;margin:20px 0 4px}
   .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--blue)}
   .hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.05;font-weight:800;letter-spacing:-1px;color:var(--navy)}
   .hero h1 .hl{color:var(--blue)}
@@ -157,8 +157,8 @@
   <img class="mark-bg" src="atlas-mark.png" alt="">
   <div class="wrap">
     <div class="hero-inner">
-      <span class="pill"><span class="dot"></span> Built on UniFi · No monthly fees · Your data, your control</span>
       <h1>One vendor for your whole property. <span class="hl">One platform. No surprise fees.</span></h1>
+      <span class="pill"><span class="dot"></span> Built on UniFi · No monthly fees · Your data, your control</span>
       <p>Atlas Vision Systems designs, installs, and manages smart property technology for multifamily, commercial, and homes — cameras, video doorbells, door &amp; gate access, EV charging, sensors, secure WiFi, and low-cost phones, all on one platform you own.</p>
       <p class="note"><b>Every feature, from day one.</b> No subscriptions, no paywalls, no feature lock — the way it should be.</p>
       <div class="cta-row">
