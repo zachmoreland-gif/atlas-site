@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /portal
+
+Sitemap: https://www.atlasvisionsystems.com/sitemap.xml
