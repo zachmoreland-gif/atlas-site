@@ -31,11 +31,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, phone, property, message, company, contact_ref } = req.body || {};
+  const { name, email, phone, property, message, company, contact_ref, js_token } = req.body || {};
 
-  // Honeypot - bots fill the hidden field; pretend success.
-  // ("company" kept for any cached pages still posting the old field name.)
-  if (company || contact_ref) return res.status(200).json({ ok: true });
+  // Bot check. A filled honeypot only counts as a bot when the browser
+  // JS token is missing: real visitors (even with autofill stuffing the
+  // hidden field) always have the token; direct-POST bots never do.
+  const isHuman = js_token === 'avs-human-2026';
+  if ((company || contact_ref) && !isHuman) {
+    console.log('Honeypot drop (no js_token):', { company: !!company, contact_ref: !!contact_ref });
+    return res.status(200).json({ ok: true });
+  }
 
   if (!name || !email) {
     return res.status(400).json({ error: 'Name and email are required.' });
@@ -85,5 +90,6 @@ export default async function handler(req, res) {
     console.error('Auto-reply failed:', e);
   }
 
+  console.log('Lead sent:', String(email));
   return res.status(200).json({ ok: true });
 }
