@@ -1,4 +1,4 @@
-// Atlas Vision Systems — contact form endpoint (Vercel serverless)
+// Atlas Vision Systems - contact form endpoint (Vercel serverless)
 // Sends lead notifications via Resend. Requires env var: RESEND_API_KEY
 // From-address requires atlasvisionsystems.com verified in Resend.
 
@@ -31,10 +31,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, phone, property, message, company } = req.body || {};
+  const { name, email, phone, property, message, company, contact_ref } = req.body || {};
 
-  // Honeypot — bots fill the hidden "company" field; pretend success.
-  if (company) return res.status(200).json({ ok: true });
+  // Honeypot - bots fill the hidden field; pretend success.
+  // ("company" kept for any cached pages still posting the old field name.)
+  if (company || contact_ref) return res.status(200).json({ ok: true });
 
   if (!name || !email) {
     return res.status(400).json({ error: 'Name and email are required.' });
@@ -45,7 +46,7 @@ export default async function handler(req, res) {
     from: FROM,
     to: [NOTIFY_TO],
     reply_to: String(email),
-    subject: 'New walkthrough request — atlasvisionsystems.com',
+    subject: 'New walkthrough request from atlasvisionsystems.com',
     html:
       `<div style="font-family:Arial,sans-serif;color:#1b2733">` +
       `<h2 style="margin:0 0 12px">New walkthrough request</h2>` +
@@ -65,20 +66,20 @@ export default async function handler(req, res) {
     return res.status(502).json({ error: 'Email send failed' });
   }
 
-  // Auto-reply to the lead — best effort, never fails the request.
+  // Auto-reply to the lead - best effort, never fails the request.
   try {
     await sendEmail({
       from: FROM,
       to: [String(email)],
       reply_to: NOTIFY_TO,
-      subject: 'We got your walkthrough request — Atlas Vision Systems',
+      subject: 'We got your walkthrough request',
       html:
         `<div style="font-family:Arial,sans-serif;color:#1b2733;font-size:15px;line-height:1.6">` +
         `<p>Hi ${esc(name)},</p>` +
-        `<p>Thanks for reaching out — your free walkthrough request is in. We'll contact you within one business day to set up a time.</p>` +
+        `<p>Thanks for reaching out! Your free walkthrough request is in. We'll contact you within one business day to set up a time.</p>` +
         `<p>In the meantime, if it's urgent, just reply to this email or write us at ` +
         `<a href="mailto:${NOTIFY_TO}">${NOTIFY_TO}</a>.</p>` +
-        `<p>— Atlas Vision Systems<br>One vendor. One platform. No surprise fees.</p></div>`,
+        `<p>Atlas Vision Systems<br>One vendor. One platform. No surprise fees.</p></div>`,
     });
   } catch (e) {
     console.error('Auto-reply failed:', e);
