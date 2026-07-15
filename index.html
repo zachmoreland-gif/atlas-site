@@ -497,6 +497,7 @@
     btn.disabled = true;
     btn.textContent = 'Sending…';
     var data = Object.fromEntries(new FormData(form).entries());
+    data.js_token = 'avs-human-2026';
     try {
       var r = await fetch('/api/contact', {
         method: 'POST',
