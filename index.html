@@ -61,6 +61,22 @@
   .hero .note{display:inline-block;background:#fff;border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:9px;padding:11px 17px;font-size:14.5px;color:var(--navy);font-weight:600;margin:0 0 30px;max-width:660px}
   .hero .note b{color:var(--blue)}
   .hero .cta-row{display:flex;gap:13px;flex-wrap:wrap}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+  .plan{background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;position:relative}
+  .plan h3{color:var(--navy);font-size:18px;font-weight:800}
+  .plan .price{font-size:28px;font-weight:800;color:var(--navy);margin:6px 0 2px}
+  .plan .price span{font-size:13px;color:var(--muted);font-weight:600}
+  .plan .size{font-size:12.5px;color:var(--muted);margin-bottom:13px;font-weight:600}
+  .plan ul{list-style:none;margin:0;padding:0;font-size:14px;color:#46586a;line-height:1.85}
+  .plan.pop{border:2px solid var(--blue)}
+  .plan .badge{position:absolute;top:-11px;left:22px;background:var(--blue);color:#fff;font-size:11px;font-weight:800;padding:3px 12px;border-radius:20px;letter-spacing:.5px}
+  .plan.dark{background:var(--navy);border-color:var(--navy)}
+  .plan.dark h3,.plan.dark .price{color:#fff}
+  .plan.dark .price span,.plan.dark .size{color:#9fc0e8}
+  .plan.dark ul{color:#c4d2e4}
+  .plan.dark b{color:#fff}
+  .homewatch{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin-top:18px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+  .plans-fine{font-size:12px;color:#8895a3;margin-top:16px;line-height:1.65}
   .hero .stats{display:flex;gap:12px 34px;flex-wrap:wrap;margin:0 0 26px}
   .hero .stat b{display:block;font-size:23px;color:var(--navy);letter-spacing:-.5px;line-height:1.1}
   .hero .stat span{font-size:12.5px;color:var(--muted);font-weight:600}
@@ -181,6 +197,7 @@
       <a href="#solutions">Solutions</a>
       <a href="#who">Who we serve</a>
       <a href="#why">Why Atlas</a>
+      <a href="#support">Support</a>
       <a class="tel" href="tel:+13143130403">(314) 313-0403</a>
       <a class="btn" href="#contact">Get a walkthrough</a>
     </nav>
@@ -435,6 +452,78 @@
       <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg></div><h3>Your data, your control</h3><p>Footage lives on-site, on hardware you own. Never mined, never sold, never sitting in a stranger's cloud. It's your property's data, and it stays that way.</p></div>
       <div class="why-item"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg></div><h3>Run by operators, not salesmen</h3><p>Founded by an IT director with <b>14 years running multifamily operations</b> — 1,800+ UniFi devices under daily management across 46 sites. We know the difference between a spec sheet and what actually survives residents, weather, and 2am maintenance calls.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- SUPPORT PLANS -->
+<section id="support">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Ongoing support</span>
+      <h2>We don't install and walk away.</h2>
+      <p>Every install includes 30 days of premium support at no charge. After that, pick the level of attention your property needs. Month-to-month, no contracts.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Essentials</h3>
+        <div class="price">$249<span>/mo</span></div>
+        <div class="size">Small systems · up to 12 devices</div>
+        <ul>
+          <li>24/7 automated alert monitoring</li>
+          <li>Firmware &amp; security updates</li>
+          <li>Footage pulls on request</li>
+          <li>Remote support (business hours)</li>
+          <li>Monthly system check</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>Managed</h3>
+        <div class="price">$499<span>/mo</span></div>
+        <div class="size">Growing systems · up to ~25 devices</div>
+        <ul>
+          <li>Everything in Essentials, plus:</li>
+          <li>Detection &amp; recording tuning</li>
+          <li>Event-rule changes</li>
+          <li>Monthly system check</li>
+          <li>Network management available</li>
+        </ul>
+      </div>
+      <div class="plan pop">
+        <span class="badge">MOST POPULAR</span>
+        <h3>Operations Partner</h3>
+        <div class="price">$799<span>/mo</span></div>
+        <div class="size">Full systems · up to ~40 devices</div>
+        <ul>
+          <li>Everything in Managed, plus:</li>
+          <li><b>Active response as alerts come in</b></li>
+          <li><b>Weekly system checks</b></li>
+          <li>Unlimited rule adjustments</li>
+          <li>Priority on-site response</li>
+          <li>New-hardware roadmap advice</li>
+        </ul>
+      </div>
+      <div class="plan dark">
+        <h3>Campus</h3>
+        <div class="price">from $1,299<span>/mo</span></div>
+        <div class="size">Large &amp; multi-building · no device limit · custom quote</div>
+        <ul>
+          <li>Everything in Operations Partner, plus:</li>
+          <li><b>System checks 3× weekly</b></li>
+          <li><b>Network management included</b></li>
+          <li>Quarterly on-site reviews</li>
+          <li><b>Annual camera lens cleaning included</b></li>
+          <li>Annual budget &amp; roadmap plan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="homewatch">
+      <div>
+        <div style="font-size:16px;font-weight:800;color:var(--navy)">Home Watch &nbsp;<span style="font-size:22px">$49<span style="font-size:12px;color:var(--muted);font-weight:600">/mo</span></span> <span style="font-size:12.5px;color:var(--muted);font-weight:600">or $499/yr</span></div>
+        <div style="font-size:13px;color:#46586a;margin-top:3px;max-width:640px">For homes we've installed: doorbell, cameras, and WiFi watched and updated. Something acting up? Call us, not tech support. Includes remote watch for aging parents' homes.</div>
+      </div>
+      <a class="btn" href="#contact" style="white-space:nowrap">Add Home Watch</a>
+    </div>
+    <p class="plans-fine">Annual camera lens cleaning available as an add-on on any plan. Plans are per site and month-to-month. New hardware and installation, ISP outages, and computer/printer support are quoted separately. A device is a camera, door reader, intercom, access point, switch, gateway, or recorder.</p>
   </div>
 </section>
 
