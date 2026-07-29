@@ -627,7 +627,13 @@
 
 <script>
   // Show confirmation if redirected back from FormSubmit fallback (?sent=1)
+  function avsReportConversion(){
+    if (typeof gtag === 'function') {
+      gtag('event', 'conversion', {'send_to': 'AW-18338740135/WbXoCK2v2dgcEKfvy6hE', 'value': 1.0, 'currency': 'USD'});
+    }
+  }
   if (new URLSearchParams(location.search).has('sent')) {
+    avsReportConversion();
     document.getElementById('sent-msg').style.display = 'block';
     var f0 = document.querySelector('.cta-form');
     if (f0) f0.style.display = 'none';
@@ -651,6 +657,7 @@
         body: JSON.stringify(data)
       });
       if (!r.ok) throw new Error('api failed');
+      avsReportConversion();
       form.style.display = 'none';
       var msg = document.getElementById('sent-msg');
       msg.style.display = 'block';
