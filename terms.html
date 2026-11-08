@@ -124,7 +124,7 @@
 
 <footer><div class="foot">
   <span>© 2026 Atlas Vision Systems, LLC. Built on UniFi.</span>
-  <span><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="mailto:support@atlasvisionsystems.com">support@atlasvisionsystems.com</a></span>
+  <span><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="#" class="cc-reopen">Cookie settings</a> · <a href="mailto:support@atlasvisionsystems.com">support@atlasvisionsystems.com</a></span>
 </div></footer>
 <div id="avs-cookie" hidden role="region" aria-label="Cookie notice">
   <div class="cc-in">
@@ -142,6 +142,15 @@
   function choose(v){window.avsConsent.set(v);el.hidden=true;if(v==='granted'){window.avsLoadTracking();}}
   document.getElementById('cc-yes').addEventListener('click',function(){choose('granted')});
   document.getElementById('cc-no').addEventListener('click',function(){choose('denied')});
+  var links=document.querySelectorAll('.cc-reopen');
+  for(var i=0;i<links.length;i++){
+    links[i].addEventListener('click',function(e){
+      e.preventDefault();
+      try{localStorage.removeItem('avs-consent')}catch(err){}
+      el.hidden=false;
+      el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  }
 })();
 </script>
 </body>

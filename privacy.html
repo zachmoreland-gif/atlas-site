@@ -105,7 +105,7 @@
 
   <h2>Cookies and analytics</h2>
   <p><strong>Nothing third-party loads until you say yes.</strong> When you first visit, a notice asks whether to allow measurement. Until you choose Accept, this site loads no analytics, no advertising tags, and no third-party scripts or pixels of any kind. If you choose Decline, none of it ever loads.</p>
-  <p>If you accept, we load two things: Google Ads conversion measurement, which tells us which ads brought someone to the site, and privacy-friendly site analytics for aggregate page counts. Your choice is remembered in your browser and you can change it any time by clearing your browser storage for this site. We do not sell your data and we do not use it for third-party advertising beyond measuring our own ads.</p>
+  <p>If you accept, we load two things: Google Ads conversion measurement, which tells us which ads brought someone to the site, and privacy-friendly site analytics for aggregate page counts. Your choice is remembered in your browser, and you can change it any time: click <strong>Cookie settings</strong> at the bottom of any page and the notice comes back. We do not sell your data and we do not use it for third-party advertising beyond measuring our own ads.</p>
 
   <h2>Data retention and security</h2>
   <p>We keep personal information only as long as needed for the purposes above or as required by law, and we use reasonable safeguards to protect it. No method of transmission or storage is completely secure, so we cannot guarantee absolute security.</p>
@@ -134,7 +134,7 @@
 
 <footer><div class="foot">
   <span>© 2026 Atlas Vision Systems, LLC. Built on UniFi.</span>
-  <span><a href="/">Home</a> · <a href="/terms.html">Terms of Use</a> · <a href="mailto:support@atlasvisionsystems.com">support@atlasvisionsystems.com</a></span>
+  <span><a href="/">Home</a> · <a href="/terms.html">Terms of Use</a> &nbsp;&middot;&nbsp; <a href="#" class="cc-reopen">Cookie settings</a> · <a href="mailto:support@atlasvisionsystems.com">support@atlasvisionsystems.com</a></span>
 </div></footer>
 <div id="avs-cookie" hidden role="region" aria-label="Cookie notice">
   <div class="cc-in">
@@ -152,6 +152,15 @@
   function choose(v){window.avsConsent.set(v);el.hidden=true;if(v==='granted'){window.avsLoadTracking();}}
   document.getElementById('cc-yes').addEventListener('click',function(){choose('granted')});
   document.getElementById('cc-no').addEventListener('click',function(){choose('denied')});
+  var links=document.querySelectorAll('.cc-reopen');
+  for(var i=0;i<links.length;i++){
+    links[i].addEventListener('click',function(e){
+      e.preventDefault();
+      try{localStorage.removeItem('avs-consent')}catch(err){}
+      el.hidden=false;
+      el.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  }
 })();
 </script>
 </body>
