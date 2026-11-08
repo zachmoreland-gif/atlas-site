@@ -347,6 +347,80 @@
 .cc-yes{background:#fff;color:#15375e}
 .cc-yes:hover{background:#e8eff8}
 </style>
+<style>
+.faq-list{max-width:860px;margin:0 auto;border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{cursor:pointer;list-style:none;padding:18px 40px 18px 2px;font-weight:800;color:var(--navy);font-size:16.5px;position:relative}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";position:absolute;right:8px;top:15px;font-size:22px;font-weight:700;color:var(--blue)}
+.faq-item[open] summary::after{content:"\2212"}
+.faq-item summary:hover{color:var(--blue)}
+.faq-item .fa{padding:0 2px 20px;color:var(--muted);font-size:15.5px;line-height:1.65;max-width:760px}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Do your cameras require a monthly subscription?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No, and it is worth being specific about what that means. UniFi Protect records to a recorder on your property, and Ubiquiti charges no per-camera license and no recording fee, whether you run 4 cameras or 400. When you watch remotely, your phone connects straight to your own recorder whenever the network allows, and falls back to Ubiquiti's encrypted relay only when a direct connection is not possible. Either way the recordings live on hardware you own. Nothing is held back behind a paywall, and nobody can raise your rate later."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long is footage kept?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "That depends on camera count, resolution and recorder size, and we size it to the retention you actually want rather than a default. For context, a recent convenience store install holds about 165 days, more than five months, where most systems keep 30. We will tell you the expected retention before you buy, not after."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Are you an MSP?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Not exactly. We are a systems integrator. We design and install UniFi camera, network, WiFi and door access systems. After install we offer optional maintenance plans that keep those systems monitored, updated and running, so you have one point of contact when something needs attention. We do not run an IT helpdesk."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do you do the physical install yourselves, or subcontract it?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "We do it ourselves. Mounting, cabling, terminations, configuration and training. Every cable gets tested and labeled at both ends, and we clean up the wiring at the recorder and at every location we touch. If something is wrong with the install, the person who fixes it is the person who did it."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can you work with the cameras or network we already have?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Often, yes. We regularly reuse existing cable, which keeps cost down and keeps the building open during the work. We can also adopt an existing UniFi system after a site review and put it on a maintenance plan. If what you have cannot do what you need, we will say so plainly rather than quietly working around it."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What does a system cost?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It depends on camera count, door count and how much cable already exists, so we quote after walking the property rather than guessing from a phone call. Pricing is fixed, not hourly: if the job runs long, that is on us. Hardware is provided at cost with no markup, and the walkthrough is free."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do you serve my area?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "We cover the Kansas City metro on both sides of the state line, including Overland Park, Olathe, Lenexa, Shawnee, Leawood, Lee's Summit and Independence. Remote UniFi support is available anywhere."
+   }
+  }
+ ]
+}
+</script>
 </head>
 <body>
 
@@ -358,6 +432,7 @@
       <a href="#who">Who we serve</a>
       <a href="#why">Why Atlas</a>
       <a href="#support">Support</a>
+        <a href="#faq">FAQ</a>
       <a class="tel" href="tel:+19132696797">(913) 269-6797</a>
       <a class="btn" href="#contact">Get a walkthrough</a>
     </nav>
@@ -725,6 +800,26 @@
       <a class="btn" href="#contact" style="white-space:nowrap">Add Home Watch</a>
     </div>
     <p class="plans-fine">Annual camera lens cleaning available as an add-on on any plan. Plans are per site, with a 3-month minimum and 30-day cancellation notice after that. Plans apply to systems installed or adopted by Atlas Vision Systems; we can adopt an existing UniFi system after a site review. Multi-site and portfolio pricing available. New hardware and installation, ISP outages, and computer/printer support are quoted separately. A device is a camera, door reader, intercom, access point, switch, gateway, or recorder.</p>
+  </div>
+</section>
+
+
+<!-- FAQ -->
+<section id="faq" class="soft">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">Questions</span>
+      <h2>The things people ask before they call.</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Do your cameras require a monthly subscription?</summary><div class="fa">No, and it is worth being specific about what that means. UniFi Protect records to a recorder on your property, and Ubiquiti charges no per-camera license and no recording fee, whether you run 4 cameras or 400. When you watch remotely, your phone connects straight to your own recorder whenever the network allows, and falls back to Ubiquiti's encrypted relay only when a direct connection is not possible. Either way the recordings live on hardware you own. Nothing is held back behind a paywall, and nobody can raise your rate later.</div></details>
+      <details class="faq-item"><summary>How long is footage kept?</summary><div class="fa">That depends on camera count, resolution and recorder size, and we size it to the retention you actually want rather than a default. For context, a recent convenience store install holds about 165 days, more than five months, where most systems keep 30. We will tell you the expected retention before you buy, not after.</div></details>
+      <details class="faq-item"><summary>Are you an MSP?</summary><div class="fa">Not exactly. We are a systems integrator. We design and install UniFi camera, network, WiFi and door access systems. After install we offer optional maintenance plans that keep those systems monitored, updated and running, so you have one point of contact when something needs attention. We do not run an IT helpdesk.</div></details>
+      <details class="faq-item"><summary>Do you do the physical install yourselves, or subcontract it?</summary><div class="fa">We do it ourselves. Mounting, cabling, terminations, configuration and training. Every cable gets tested and labeled at both ends, and we clean up the wiring at the recorder and at every location we touch. If something is wrong with the install, the person who fixes it is the person who did it.</div></details>
+      <details class="faq-item"><summary>Can you work with the cameras or network we already have?</summary><div class="fa">Often, yes. We regularly reuse existing cable, which keeps cost down and keeps the building open during the work. We can also adopt an existing UniFi system after a site review and put it on a maintenance plan. If what you have cannot do what you need, we will say so plainly rather than quietly working around it.</div></details>
+      <details class="faq-item"><summary>What does a system cost?</summary><div class="fa">It depends on camera count, door count and how much cable already exists, so we quote after walking the property rather than guessing from a phone call. Pricing is fixed, not hourly: if the job runs long, that is on us. Hardware is provided at cost with no markup, and the walkthrough is free.</div></details>
+      <details class="faq-item"><summary>Do you serve my area?</summary><div class="fa">We cover the Kansas City metro on both sides of the state line, including Overland Park, Olathe, Lenexa, Shawnee, Leawood, Lee's Summit and Independence. Remote UniFi support is available anywhere.</div></details>
+    </div>
   </div>
 </section>
 
