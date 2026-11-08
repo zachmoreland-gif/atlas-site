@@ -26,12 +26,49 @@ async function sendEmail(payload) {
   return r;
 }
 
+// Rate limiting. In-memory, so it resets on cold start and is per-instance:
+// a speed bump against scripted abuse, not a hard wall. The abuse this guards
+// against is someone pointing the auto-reply at a third party's inbox.
+// For a real limit, use Vercel Firewall rate limiting or Turnstile on the form.
+const HITS = new Map();
+const WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const MAX_PER_IP = 4;
+const MAX_PER_EMAIL = 2;
+
+function tooMany(key, max) {
+  const now = Date.now();
+  const hits = (HITS.get(key) || []).filter((t) => now - t < WINDOW_MS);
+  if (hits.length >= max) {
+    HITS.set(key, hits);
+    return true;
+  }
+  hits.push(now);
+  HITS.set(key, hits);
+  if (HITS.size > 5000) {
+    for (const [k, v] of HITS) if (!v.some((t) => now - t < WINDOW_MS)) HITS.delete(k);
+  }
+  return false;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { name, email, phone, property, message, company, contact_ref, js_token } = req.body || {};
+
+  const ip = String(
+    req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || ''
+  ).split(',')[0].trim() || 'unknown';
+
+  if (tooMany(`ip:${ip}`, MAX_PER_IP)) {
+    console.log('Rate limit hit (ip):', ip);
+    return res.status(429).json({ error: 'Too many requests. Please try again later, or call us.' });
+  }
+  if (email && tooMany(`em:${String(email).toLowerCase().trim()}`, MAX_PER_EMAIL)) {
+    console.log('Rate limit hit (email)');
+    return res.status(429).json({ error: 'Too many requests. Please try again later, or call us.' });
+  }
 
   // Bot check. A filled honeypot only counts as a bot when the browser
   // JS token is missing: real visitors (even with autofill stuffing the
